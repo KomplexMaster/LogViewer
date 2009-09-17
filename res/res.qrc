@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/" />
+    <qresource prefix="/img" >
+        <file alias="open" >img/fileexport.png</file>
+        <file alias="filesave" >img/filesave.png</file>
+        <file>img/filesaveas.png</file>
+        <file alias="leave" >img/leave.png</file>
+        <file alias="save_all" >img/save_all.png</file>
+        <file alias="stop" >img/stop.png</file>
+        <file alias="splash" >img/ysio.png</file>
+    </qresource>
+</RCC>
