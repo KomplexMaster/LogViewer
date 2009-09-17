@@ -18,36 +18,35 @@ namespace Type
 }
 
 class LogItem
+
+// LogItem ist eine Zeile eines LogFiles, alle Daten sind geparst
+
 {
 
 public:
 
-    LogItem(const QString LogLine);
+    LogItem(const QString LogLine);		//Konstruktor wird eine Zeile der Logdatei übergeben und liefert ein LogItem
 
-    QChar          getType(void) const;
-    QDateTime getTimestamp(void) const;
-    int       getMessageID(void) const;
-    int        getSourceID(void) const;
-    QString     getUNKOWND(void) const;
-    QString     getMessage(void) const;
-
-    friend QTextStream &operator<<(QTextStream &out,const LogItem &rhs);
+    QChar          getType(void) const;	//GetFunc für Type
+    QDateTime getTimestamp(void) const;	//GetFunc für Timestamp
+    int       getMessageID(void) const;	//GetFunc für MessageID
+    int        getSourceID(void) const;	//GetFunc für SourceID
+    QString     getUNKOWND(void) const;	//GetFunc für UNKOWN
+    QString     getMessage(void) const;	//GetFunc für Message
+	
+    friend QTextStream &operator<<(QTextStream &out,const LogItem &rhs); //Function um ein LogItem leicht durch qDebug auszugeben
 
 protected:
 
-    int LogItemID;
-
-    QChar Type;
-
-    QString Message;
-    QString UNKOWND;
-
-    int SourceID;
-    int MessageID;
-
-    QDateTime Timestamp;
+    int LogItemID;		//LogItem ID, ist eine uid
+    QChar Type;			//Typ der LogZeile (Warning, Information, ...)
+    QString Message; 	//Die Meldung der LogZeile
+    QString UNKOWND;	//Was, wo ich nicht blicke wozu man des brauchen könnte, sinloses zeuch halt
+    int SourceID;		//Source ID der Zeile
+    int MessageID;		//Message ID der Zeile
+    QDateTime Timestamp;//Zeitstempel in QDateTime Format
 };
 
-QTextStream &operator<<(QTextStream &out,const LogItem &rhs);
+QTextStream &operator<<(QTextStream &out,const LogItem &rhs); //Function um ein LogItem leicht durch qDebug auszugeben
 
 #endif // LOGITEM_H

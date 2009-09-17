@@ -7,6 +7,7 @@
 
 class LogFile
 {
+
 protected:
     LogItemList     LogItems;           //enhält alle LogItems dieses LogFiles
     QFile*          File;               //enhält Name des LogFiles

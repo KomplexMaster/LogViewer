@@ -4,14 +4,14 @@ LogItem::LogItem(const QString LogLine)
 {
     QStringList elements = LogLine.split("|");  //Aufteilen in einzellne Element
 
-    if(elements.count()>4)
+    if(elements.count()>4)	//Überprüft ob die Anzhal der Elemente passt, bei einer leeren LogZeile ist es nur 1 Element
     {
-        Type = elements.at(Propertie::Type).at(0); //Type feststellen
+        Type = elements.at(Propertie::Type).at(0); 	//Type feststellen
 
-        QString tmptime = elements.at(Propertie::Timestamp);
+        QString tmptime(elements.at(Propertie::Timestamp));	//Speichert den Teil der Zeile für Zeit in tmptime
 
-        int d(tmptime.left(2).toInt());
-        int M(tmptime.mid(3,2).toInt());
+        int d(tmptime.left(2).toInt());		//setzt Tage
+        int M(tmptime.mid(3,2).toInt());	//setzt Tage
         int y(tmptime.mid(6,4).toInt());
         int h(tmptime.mid(11,2).toInt());
         int m(tmptime.mid(14,2).toInt());
