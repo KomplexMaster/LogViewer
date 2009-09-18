@@ -1,6 +1,6 @@
 #include "logitem.h"
 
-LogItem::LogItem(const QString LogLine)
+LogItem::LogItem(const QString LogLine, const int _LineNumber, const LogFile* _LogFile):LineNumber(_LineNumber), File(_LogFile)
 {
     QStringList elements = LogLine.split("|");  //Aufteilen in einzellne Element
 
@@ -10,8 +10,8 @@ LogItem::LogItem(const QString LogLine)
 
         QString tmptime(elements.at(Propertie::Timestamp));	//Speichert den Teil der Zeile für Zeit in tmptime
 
-        int d(tmptime.left(2).toInt());		//setzt Tage
-        int M(tmptime.mid(3,2).toInt());	//setzt Tage
+        int d(tmptime.left(2).toInt());
+        int M(tmptime.mid(3,2).toInt());
         int y(tmptime.mid(6,4).toInt());
         int h(tmptime.mid(11,2).toInt());
         int m(tmptime.mid(14,2).toInt());

@@ -57,7 +57,7 @@ LogViewDockWidget::LogViewDockWidget(QWidget *parent) :
     foreach(logitem,*LogFiles.first().getLogItemList())
     {
 
-        addLogLine(&logunfilteredmodle,logitem->getType(),logitem->getTimestamp(),logitem->getMessageID(),logitem->getSourceID(),logitem->getUNKOWND(),logitem->getMessage(),"filename",1);
+        //addLogLine(&logunfilteredmodle,logitem->getType(),logitem->getTimestamp(),logitem->getMessageID(),logitem->getSourceID(),logitem->getUNKOWND(),logitem->getMessage(),"filename",1);
     }
 }
 

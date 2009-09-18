@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "logitem.h"
 #include "logfilefilter.h"
 #include "logviewdockwidget.h"
-
 #include "logdelegate.h"
 
 MainWindow::MainWindow(QWidget *parent)

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'logfileviewwidget.ui'
 **
-** Created: Tue 15. Sep 21:26:59 2009
+** Created: Fri 18. Sep 11:18:05 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!

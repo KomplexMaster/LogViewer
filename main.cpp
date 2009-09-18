@@ -6,8 +6,6 @@
 
 #include <iostream>
 
-static int test = 0;
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

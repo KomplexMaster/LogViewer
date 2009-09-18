@@ -2,8 +2,12 @@
 #define LOGFILE_H
 
 #include <QTGUI>
-#include "logitem.h"
 #include "logfilefilter.h"
+
+
+class LogItem;
+
+typedef QList<LogItem*> LogItemList;
 
 class LogFile
 {
