@@ -3,7 +3,7 @@
 
 #include <QTGUI>
 #include "logfilefilter.h"
-
+#include "logitemparser.h"
 
 class LogItem;
 

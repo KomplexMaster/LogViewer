@@ -22,4 +22,3 @@ bool LogFileProxyModel::lessThan(const QModelIndex &left, const QModelIndex &rig
 {
     return true;
 }
-

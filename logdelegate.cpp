@@ -26,7 +26,7 @@ void LogDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & optio
             filters = model->getFilters(index);
         }
 
-        qDebug() << model->metaObject()->className();
+        //qDebug() << model->metaObject()->className();
 
         int ColorCount=0;   //anzahl der Filter mit Frabe
 

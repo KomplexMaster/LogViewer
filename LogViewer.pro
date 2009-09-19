@@ -17,7 +17,8 @@ SOURCES += mainwindow.cpp \
     logfileviewwidget.cpp \
     logfileviewwidgetindexbar.cpp \
     logfileproxymodel.cpp \
-    logviewdockwidget.cpp
+    logviewdockwidget.cpp \
+    logitemparser.cpp
 HEADERS += mainwindow.h \
     logfile.h \
     logfilemodel.h \
@@ -27,7 +28,8 @@ HEADERS += mainwindow.h \
     logfileviewwidget.h \
     logfileviewwidgetindexbar.h \
     logfileproxymodel.h \
-    logviewdockwidget.h
+    logviewdockwidget.h \
+    logitemparser.h
 FORMS += mainwindow.ui \
     logfileviewwidget.ui \
     logviewdockwidget.ui

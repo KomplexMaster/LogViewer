@@ -18,7 +18,38 @@ LogFile::LogFile(QFile *_file):File(_file)
                 lograwlist.append(stream.readLine());
             }
 
-            LogItem *item;                              //*item dient hals Hilfvariable
+            qDebug() << "START::" << QTime::currentTime();
+            QTime dttmp(QTime::currentTime());
+
+            LogItemParser p1;
+            LogItemParser p2;
+
+
+            p1.startint = 0;
+            p1.stopint = lograwlist.size()/2;
+            p1.lograwlist = &lograwlist;
+
+            p2.startint = p1.stopint;
+            p2.stopint = lograwlist.size();
+            p2.lograwlist = &lograwlist;
+
+            p1.start();
+            p2.start();
+
+            while(p1.isRunning() || p2.isRunning())
+            {
+                p1.wait();
+                qDebug() << "RUN::" << QTime::currentTime();
+            };
+
+            qDebug() << "p1:" << p1.startint << "-" << p1.stopint << "-" << p1._LogItems.size();
+            qDebug() << "p2:" << p2.startint << "-" << p2.stopint << "-" << p2._LogItems.size();
+
+            LogItems.append(p1._LogItems);
+            LogItems.append(p2._LogItems);
+
+            /*
+            LogItem *item;                              //item dient hals Hilfvariable
 
             for(int i = 0;i<lograwlist.size();i++)      //Diese Schleife durchläuft das Array und erzeugt aus jeder Zeile ein LogItem
             {
@@ -27,7 +58,11 @@ LogFile::LogFile(QFile *_file):File(_file)
                 {
                     LogItems.append(item);              //Fügt das neue LogItem der LogItemListe hinzu
                 }
-            }
+            }*/
+
+            qDebug() << "STOP::" << QTime::currentTime();
+
+            qDebug() << "DIFF::" << dttmp.msecsTo(QTime::currentTime());
         }
     }
 }
@@ -96,4 +131,3 @@ bool LogFile::filter(LogItem* item, LogFileFilter filter)
 
     return true;
 }
-

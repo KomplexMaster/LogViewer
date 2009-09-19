@@ -67,7 +67,7 @@ void MainWindow::selectLogFile(QModelIndex i)
 {
     QList<QListWidgetItem*> lwItems =  ui->listWidget->selectedItems();
 
-    QList<LogFile*>* selectedLogs = new QList<LogFile*>();
+    //QList<LogFile*>* selectedLogs = new QList<LogFile*>();
 
     /*foreach(QListWidgetItem* lwItem,lwItems)
     {
