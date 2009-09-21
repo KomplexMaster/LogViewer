@@ -6,6 +6,7 @@
 #include "logfile.h"
 #include "logfilemodel.h"
 #include "logfileviewwidget.h"
+#include "LogItemParserDialog.h"
 
 namespace Ui
 {
@@ -29,6 +30,7 @@ private:
 
     QList<QFile> FileList;          //Lieste mit offenen Dateien
 
+    LogItemParserDialog* lpd;
 
     LogFileViewWidgetIndexBar* bar;
 

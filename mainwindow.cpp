@@ -5,6 +5,7 @@
 #include "logviewdockwidget.h"
 #include "logdelegate.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
@@ -50,7 +51,13 @@ void MainWindow::on_actionOpen_triggered()
 
 LogFile* MainWindow::loadLogFile(QFile* _file)
 {
-    return new LogFile(_file);
+    LogFile* logFile = new LogFile(_file);
+    lpd = new LogItemParserDialog(logFile,this);
+    lpd->show();
+
+    connect(logFile,SIGNAL(readFinished()),this,SLOT(refreshLogFileList()));
+
+    return logFile;
 }
 
 void MainWindow::addLogFile(LogFile* _log)

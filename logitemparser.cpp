@@ -2,6 +2,8 @@
 
 void LogItemParser::run(void)
 {
+    qDebug() << "LogItemParser::" << "Start at Pos:" << startPos << " to Pos:" << stopPos;
+
     for(i = startPos;i<stopPos;i++)      //Diese Schleife durchläuft das Array und erzeugt aus jeder Zeile ein LogItem
     {
         LogItem* item = new LogItem(lograwlist->at(i),i,this->parent);   //Dem Konstruktor von LogItem werden die aktuelle Zeile, die Zeilen Nummer und ein Pointer der Datei übergeben
@@ -11,11 +13,13 @@ void LogItemParser::run(void)
         }
     }
 
+    qDebug() << "LogItemParser::" << "finished at Pos:" << i;
+
     emit finished();
 }
 
 
-LogItemParser::LogItemParser(int _startPos, int _stopPos, LogFile *_parent):startPos(_startPos),stopPos(_stopPos),parent(_parent)
+LogItemParser::LogItemParser(int _startPos, int _stopPos, QList<QString>* _lograwlist, LogFile *_parent):startPos(_startPos), stopPos(_stopPos), lograwlist(_lograwlist), parent(_parent)
 {
 }
 
@@ -41,4 +45,9 @@ int LogItemParser::getstartPos(void)
 int LogItemParser::getstopPos(void)
 {
     return stopPos;
+}
+
+LogItemList* LogItemParser::getLogItemList(void)
+{
+    return &LogItems;
 }

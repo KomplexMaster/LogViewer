@@ -50,7 +50,7 @@ void LogFileViewWidgetIndexBar::recalScale()
         {
             for(int i = 0;i<size().height();i++)
             {
-                for(int j = i*factor; j<=(i+1)*factor; j++)
+                for(int j = (double)i*factor; j<=(double)(i+1)*factor; j++)
                 {
 
                     QList<LogFileFilter> filters = model->getFilters(model->index(j,0));

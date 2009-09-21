@@ -4,7 +4,7 @@
 
 #include <QDateTime>
 
-LogFile::LogFile(QFile *_file):File(_file),threadCount(2)
+LogFile::LogFile(QFile *_file):File(_file),threadCount(4)
 {
     if (_file->exists())                                //Überprüft ob LogFile existiert
     {
@@ -17,54 +17,46 @@ LogFile::LogFile(QFile *_file):File(_file),threadCount(2)
                 lograwlist.append(stream.readLine());
             }
 
-            for(int i(0);i>threadCount;i++)
-            {
+            lineCount = lograwlist.size();
 
+            qDebug() << "LogFile::" << "LogRawList:" << lograwlist.size();
+
+            //Erzeugen der Threads
+
+            int startPos,stopPos;
+            int frameSize(lograwlist.size()/threadCount);
+
+            for(int i = 0;i<threadCount;i++)
+            {
+                startPos = i*frameSize;
+
+                if(i==threadCount)
+                {
+                    stopPos = lograwlist.size();
+                }
+                else
+                {
+                    stopPos = startPos+frameSize;
+                }
+
+
+                LogItemParser* parser = new LogItemParser(startPos, stopPos, &lograwlist, this);
+                connect(parser,SIGNAL(finished()),this,SLOT(threadFinished()));
+                ParserThread.append(parser);
             }
 
+            qDebug() << "LogFile::" << ParserThread.size() << " Thread erzeugt";
 
+            //Starte Thraeds
+
+            foreach(LogItemParser* parser,ParserThread)
+            {
+                parser->start();
+            }
 
             qDebug() << "START::" << QTime::currentTime();
-            QTime dttmp(QTime::currentTime());
 
-            QProgressDialog pd("test","cancel",0,lograwlist.size()/2);
-            pd.show();
-/*
-            LogItemParser p1;
-            LogItemParser p2;
-
-
-            p1.startint = 0;
-            p1.stopint = lograwlist.size()/2;
-            p1.lograwlist = &lograwlist;
-
-            p2.startint = p1.stopint;
-            p2.stopint = lograwlist.size();
-            p2.lograwlist = &lograwlist;
-*/
-
-            //t = new QTimer(this);
-            //connect(t, SIGNAL(timeout()), this, SLOT(perform()));
-            //t->start(0);
-
-
-            /*p1.start(QThread::LowPriority);
-            p2.start(QThread::LowPriority);
-
-            while(p1.isRunning() || p2.isRunning())
-            {
-                p1.wait(1000);
-                pd.show();
-                qDebug() << "RUN::" << QTime::currentTime();
-            };
-*/
-
-            //LogItems.append(p1._LogItems);
-            //LogItems.append(p2._LogItems);
-
-            qDebug() << "STOP::" << QTime::currentTime();
-
-            qDebug() << "DIFF::" << dttmp.msecsTo(QTime::currentTime());
+            startime = QTime::currentTime();
         }
     }
 }
@@ -132,4 +124,48 @@ bool LogFile::filter(LogItem* item, LogFileFilter filter)
     }
 
     return true;
+}
+
+void LogFile::threadFinished(void)
+{
+    qDebug() << "LogFile::" << "Thread finished";
+
+    foreach(LogItemParser* parser,ParserThread)
+    {
+        if(parser->isRunning())return;
+    }    
+
+    qDebug() << "LogFile::" << "all Thread are finished";
+
+    qDebug() << "LogFile::Append LogItemLits to MainList" << QTime::currentTime();
+
+    foreach(LogItemParser* parser,ParserThread)
+    {
+        this->LogItems.append(*parser->getLogItemList());
+    }
+
+    ParserThread.clear();
+    lograwlist.clear();
+
+    qDebug() << "LogFile::readFinished" << startime.msecsTo(QTime::currentTime()) << "msec";
+
+    qDebug() << "LogFile::LogItemList:" << LogItems.size();
+
+    emit this->readFinished();
+}
+
+QList<LogItemParser*>* LogFile::getParserThread(void)
+{
+   return &ParserThread;
+}
+
+int LogFile::getLines()
+{
+    return lineCount;
+}
+
+QTime LogFile::getStartTime()
+{
+
+    return startime;
 }

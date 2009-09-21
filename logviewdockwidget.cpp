@@ -45,8 +45,6 @@ LogViewDockWidget::LogViewDockWidget(QWidget *parent) :
 
     logfilteredmodle.setDynamicSortFilter(true);
     logfilteredmodle.setSourceModel(&logunfilteredmodle);
-
-    LogItem* logitem;
 }
 
 LogViewDockWidget::~LogViewDockWidget()

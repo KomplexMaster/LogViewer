@@ -24,6 +24,10 @@ protected:
     int threadCount;                    //Anzahl der Thread die zum Pasern gestaret werden
 
     QList<QString> lograwlist;                  //Alle Zeilen des LogFiles werden in dem Array lograwlist zwischengespeichert
+
+    int lineCount;
+
+    QTime startime;
 public:
 
     LogFile(QFile *_file);
@@ -31,7 +35,11 @@ public:
 
     LogItemList* getLogItemList(void);
     
+    int getLines(void);
+    QTime getStartTime(void);
+
     QFile* getFile(void);
+    QList<LogItemParser*>* getParserThread(void);
 
     LogFileFilter getFilter(void);
     void setFilter(LogFileFilter _filter);
@@ -40,6 +48,10 @@ public:
     static bool filter(LogItem* in, LogFileFilter filter);
 
     int count();
+
+public slots:
+
+    void threadFinished(void);
 
 signals:
 

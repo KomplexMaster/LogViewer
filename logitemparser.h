@@ -24,7 +24,7 @@ class LogItemParser : public QThread
 
     public:
 
-        LogItemParser(int _startPos, int _stopPos, LogFile *parent);
+        LogItemParser(int _startPos, int _stopPos, QList<QString> *_lograwlist, LogFile *parent);
         ~LogItemParser();
 
         // Getter Setter
@@ -33,6 +33,7 @@ class LogItemParser : public QThread
         int getstartPos(void);          //startPos
         int getstopPos(void);           //stopPos
         int getStep(void);              //mom pos der zu parsenden Zeile
+        LogItemList* getLogItemList(void);  //getter für LogItemList
 
     protected:
 
@@ -40,9 +41,8 @@ class LogItemParser : public QThread
         int stopPos;                    //ende des zu parsenden Bereichs
         int i;                          //dient als LoopVariable
 
-        LogFile* parent;                //Pointer auf das LogFile das den Thread gestartet hat (wird zum erzeugen der LogItems benötigt)
-
         QList<QString> *lograwlist;     //Pointer zu den zu parsenden LogZeilen
+        LogFile* parent;                //Pointer auf das LogFile das den Thread gestartet hat (wird zum erzeugen der LogItems benötigt)
         LogItemList LogItems;           //Container mit den geparsden LogItems
 
         void run(void);
