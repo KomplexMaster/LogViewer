@@ -18,7 +18,8 @@ SOURCES += mainwindow.cpp \
     logfileviewwidgetindexbar.cpp \
     logfileproxymodel.cpp \
     logviewdockwidget.cpp \
-    logitemparser.cpp
+    logitemparser.cpp \
+    LogItemParserDialog.cpp
 HEADERS += mainwindow.h \
     logfile.h \
     logfilemodel.h \
@@ -29,10 +30,12 @@ HEADERS += mainwindow.h \
     logfileviewwidgetindexbar.h \
     logfileproxymodel.h \
     logviewdockwidget.h \
-    logitemparser.h
+    logitemparser.h \
+    LogItemParserDialog.h
 FORMS += mainwindow.ui \
     logfileviewwidget.ui \
-    logviewdockwidget.ui
+    logviewdockwidget.ui \
+    LogItemParserDialog.ui
 TRANSLATIONS = LogViewer_en.ts \
     LogViewer_de.ts
 RESOURCES += res/res.qrc

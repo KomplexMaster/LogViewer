@@ -4,23 +4,32 @@
 
 #include <QDateTime>
 
-LogFile::LogFile(QFile *_file):File(_file)
+LogFile::LogFile(QFile *_file):File(_file),threadCount(2)
 {
     if (_file->exists())                                //Überprüft ob LogFile existiert
     {
         if(_file->open(QIODevice::ReadOnly))            //Überprüft ob LogFile geöffnet werden kann
         {
             QTextStream stream(_file);                  //Erstellt TextStream zum auslesen der Datei
-            QList<QString> lograwlist;                  //Alle Zeilen des LogFiles werden in dem Array lograwlist zwischengespeichert
 
             while(!stream.atEnd())                      //Schleife die, die Zeilen des LogFiles in das Array läd
             {
                 lograwlist.append(stream.readLine());
             }
 
+            for(int i(0);i>threadCount;i++)
+            {
+
+            }
+
+
+
             qDebug() << "START::" << QTime::currentTime();
             QTime dttmp(QTime::currentTime());
 
+            QProgressDialog pd("test","cancel",0,lograwlist.size()/2);
+            pd.show();
+/*
             LogItemParser p1;
             LogItemParser p2;
 
@@ -32,33 +41,26 @@ LogFile::LogFile(QFile *_file):File(_file)
             p2.startint = p1.stopint;
             p2.stopint = lograwlist.size();
             p2.lograwlist = &lograwlist;
+*/
 
-            p1.start();
-            p2.start();
+            //t = new QTimer(this);
+            //connect(t, SIGNAL(timeout()), this, SLOT(perform()));
+            //t->start(0);
+
+
+            /*p1.start(QThread::LowPriority);
+            p2.start(QThread::LowPriority);
 
             while(p1.isRunning() || p2.isRunning())
             {
-                p1.wait();
+                p1.wait(1000);
+                pd.show();
                 qDebug() << "RUN::" << QTime::currentTime();
             };
+*/
 
-            qDebug() << "p1:" << p1.startint << "-" << p1.stopint << "-" << p1._LogItems.size();
-            qDebug() << "p2:" << p2.startint << "-" << p2.stopint << "-" << p2._LogItems.size();
-
-            LogItems.append(p1._LogItems);
-            LogItems.append(p2._LogItems);
-
-            /*
-            LogItem *item;                              //item dient hals Hilfvariable
-
-            for(int i = 0;i<lograwlist.size();i++)      //Diese Schleife durchläuft das Array und erzeugt aus jeder Zeile ein LogItem
-            {
-                item = new LogItem(lograwlist.at(i),i,this);   //Dem Konstruktor von LogItem werden die aktuelle Zeile, die Zeilen Nummer und ein Pointer der Datei übergeben
-                if(item->getTimestamp().isValid())      //Prüft ob der Zeitstempel richtig geparsst werden könnte
-                {
-                    LogItems.append(item);              //Fügt das neue LogItem der LogItemListe hinzu
-                }
-            }*/
+            //LogItems.append(p1._LogItems);
+            //LogItems.append(p2._LogItems);
 
             qDebug() << "STOP::" << QTime::currentTime();
 

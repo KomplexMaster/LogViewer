@@ -46,19 +46,7 @@ LogViewDockWidget::LogViewDockWidget(QWidget *parent) :
     logfilteredmodle.setDynamicSortFilter(true);
     logfilteredmodle.setSourceModel(&logunfilteredmodle);
 
-    qDebug() << "==> Start:" << QDateTime();
-
-    LogFiles.append(LogFile(new QFile("D:\\Dokumente und Einstellungen\\Administrator.ROOZ-7A90DB47F2\\Eigene Dateien\\LogViewer\\release\\FlCompact.log")));
-
-    qDebug() << "==> End:" << QDateTime();
-
     LogItem* logitem;
-
-    foreach(logitem,*LogFiles.first().getLogItemList())
-    {
-
-        //addLogLine(&logunfilteredmodle,logitem->getType(),logitem->getTimestamp(),logitem->getMessageID(),logitem->getSourceID(),logitem->getUNKOWND(),logitem->getMessage(),"filename",1);
-    }
 }
 
 LogViewDockWidget::~LogViewDockWidget()
