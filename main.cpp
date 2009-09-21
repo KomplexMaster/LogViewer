@@ -8,6 +8,10 @@
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setOrganizationName("Kramer-NET");
+    QCoreApplication::setOrganizationDomain("Kramer-NET.de");
+    QCoreApplication::setApplicationName("LogViewer");
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

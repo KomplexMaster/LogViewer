@@ -4,8 +4,16 @@
 
 #include <QDateTime>
 
-LogFile::LogFile(QFile *_file):File(_file),threadCount(4)
+LogFile::LogFile(QFile *_file):File(_file)
 {
+    threadCount = settings.value("LogFile/threadCount").toInt();
+
+    if(threadCount<1)
+    {
+        settings.setValue("LogFile/threadCount","1");
+        threadCount = 1;
+    }
+
     if (_file->exists())                                //Überprüft ob LogFile existiert
     {
         if(_file->open(QIODevice::ReadOnly))            //Überprüft ob LogFile geöffnet werden kann
@@ -17,31 +25,31 @@ LogFile::LogFile(QFile *_file):File(_file),threadCount(4)
                 lograwlist.append(stream.readLine());
             }
 
-            lineCount = lograwlist.size();
+            lineCount = lograwlist.size();              //setzt lineCount auf Anzahl der RohZeilen (Zeilen die nicht gelesen werden können, werden ignoriert)
 
             qDebug() << "LogFile::" << "LogRawList:" << lograwlist.size();
 
             //Erzeugen der Threads
 
             int startPos,stopPos;
-            int frameSize(lograwlist.size()/threadCount);
+            int frameSize(lograwlist.size()/threadCount);   //Berechnet die Grösse der Frames nach (Zeilen Anzahl) / (Anzahl der Threads)
 
-            for(int i = 0;i<threadCount;i++)
+            for(int i = 0;i<threadCount;i++)                //Diese Schleife erzeugt die Threads und Speichert sie in der Liste ParserThread
             {
-                startPos = i*frameSize;
+                startPos = i*frameSize;                     //Berechnet die StartPosition im LogRawList Array für den Thread
 
-                if(i==threadCount)
+                if(i==threadCount)                          //Wenn der Letzte Thread gestartet wird, ist die StopPosition automatisch das ende des LogRawList Arrays
                 {
                     stopPos = lograwlist.size();
                 }
-                else
+                else                                        //StopPosition wird nach Start + FrameGrösse berechnet
                 {
                     stopPos = startPos+frameSize;
                 }
 
 
-                LogItemParser* parser = new LogItemParser(startPos, stopPos, &lograwlist, this);
-                connect(parser,SIGNAL(finished()),this,SLOT(threadFinished()));
+                LogItemParser* parser = new LogItemParser(startPos, stopPos, &lograwlist, this);    //Erzeugt den Thread
+                connect(parser,SIGNAL(finished()),this,SLOT(threadFinished()));                     //Wenn der Thread beendet ist löst er den Slot threadFinished aus
                 ParserThread.append(parser);
             }
 
@@ -144,12 +152,15 @@ void LogFile::threadFinished(void)
         this->LogItems.append(*parser->getLogItemList());
     }
 
-    ParserThread.clear();
+    while(ParserThread.size()!=0)ParserThread.clear();
+
     lograwlist.clear();
 
     qDebug() << "LogFile::readFinished" << startime.msecsTo(QTime::currentTime()) << "msec";
 
     qDebug() << "LogFile::LogItemList:" << LogItems.size();
+
+    qDebug() << "LogFile::ParserThread:" << ParserThread.size();
 
     emit this->readFinished();
 }
@@ -159,7 +170,7 @@ QList<LogItemParser*>* LogFile::getParserThread(void)
    return &ParserThread;
 }
 
-int LogFile::getLines()
+int LogFile::getLinesCount()
 {
     return lineCount;
 }
@@ -168,4 +179,12 @@ QTime LogFile::getStartTime()
 {
 
     return startime;
+}
+
+LogFile::~LogFile()
+{
+    foreach(LogItemParser* parser, ParserThread)
+    {
+        delete parser;
+    }
 }

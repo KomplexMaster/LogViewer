@@ -8,7 +8,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
-{
+{   
     ui->setupUi(this);
 
     model = new LogFileModel(this);
@@ -16,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     LogFileViewWidget* log = new LogFileViewWidget(model, this);
     ui->mdiArea->addSubWindow(log);
 
-    ui->mdiArea->addSubWindow(new LogViewDockWidget(this));
+    ui->mdiArea->setActiveSubWindow(ui->mdiArea->subWindowList().first());
+    ui->mdiArea->activeSubWindow()->showMaximized();
 
     log->maximumSize();
     connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SLOT(setCount()));

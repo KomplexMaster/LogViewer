@@ -128,6 +128,8 @@ void LogFileModel::setLogFileList(QList<LogFile*>* _LogFiles)
 void LogFileModel::addLogFile(LogFile* _LogFile)
 {
     LogFiles->append(_LogFile);
+
+    connect(_LogFile,SIGNAL(readFinished()),this,SLOT(refreshItemList()));
     emit fileListchange();
 }
 

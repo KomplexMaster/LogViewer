@@ -3,10 +3,10 @@
 #include "logdelegate.h"
 #include "logfile.h"
 
-LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent): QWidget(parent),model(_model),
+LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent): model(_model), QWidget(parent),
     m_ui(new Ui::LogFileViewWidget)
 {
-    model = new LogFileModel(this);
+    if(!model)model = new LogFileModel(this);
 
     LogFileFilter filter;           //REMOVE!!!!!!!!!!
     filter.SourceID = 240;          //REMOVE!!!!!!!!!!

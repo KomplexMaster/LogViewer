@@ -15,7 +15,7 @@ namespace Ui {
 class LogFileViewWidget : public QWidget {
     Q_OBJECT
 public:
-    LogFileViewWidget(LogFileModel *_model, QWidget *parent = 0);
+    LogFileViewWidget(LogFileModel *_model = 0, QWidget *parent = 0);
     ~LogFileViewWidget();
 
 public slots:
