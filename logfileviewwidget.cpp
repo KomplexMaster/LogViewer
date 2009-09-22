@@ -3,10 +3,15 @@
 #include "logdelegate.h"
 #include "logfile.h"
 
-LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent): model(_model), QWidget(parent),
+
+
+
+LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent):QWidget(parent),  model(_model),
     m_ui(new Ui::LogFileViewWidget)
 {
-    if(!model)model = new LogFileModel(this);
+    if(!model)model = new LogFileModel(this);   //Erstellt LogFileModel falls per default keines übergeben wurde
+    proxymodel = new LogFileProxyModel(this);
+    proxymodel->setSourceModel(model);
 
     LogFileFilter filter;           //REMOVE!!!!!!!!!!
     filter.SourceID = 240;          //REMOVE!!!!!!!!!!
@@ -16,15 +21,14 @@ LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent): mod
     filter2.SourceID = 17;           //REMOVE!!!!!!!!!!
     filter2.color    = QColor(255,105,105,255);      //REMOVE!!!!!!!!!!
     model->addLogFileFilter(filter2);//REMOVE!!!!!!!!!!
-    //LogFileFilter filter3;          //REMOVE!!!!!!!!!!
-    //filter3.SourceID = 243;          //REMOVE!!!!!!!!!!
-    //filter3.color    = Qt::blue;      //REMOVE!!!!!!!!!!
-    //model->addLogFileFilter(filter3);//REMOVE!!!!!!!!!!
+    LogFileFilter filter3;          //REMOVE!!!!!!!!!!
+    filter3.SourceID = 243;          //REMOVE!!!!!!!!!!
+    filter3.color    = Qt::blue;      //REMOVE!!!!!!!!!!
+    model->addLogFileFilter(filter3);//REMOVE!!!!!!!!!!
 
-    proxymodel = new LogFileProxyModel(this);
-    proxymodel->setSourceModel(model);
+    //Erzeugt die Oberfläche
 
-    top = new QTableView();
+    top = new QTableView();         //erzeugt Views für ungefilterte (top) und gefilltere (botton) Ansicht
     botton = new QTableView();
 
     this->setLayout(new QHBoxLayout(this));
@@ -40,12 +44,8 @@ LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent): mod
     top->setModel(model);
     botton->setModel(proxymodel);
 
-    this->setWindowTitle("test");
-
     top->setItemDelegate(new LogDelegate(this));
     botton->setItemDelegate(new LogDelegate(this));
-
-    connect(this->botton,SIGNAL(clicked(QModelIndex)),this,SLOT(jumpToLine()));
 }
 
 LogFileViewWidget::~LogFileViewWidget()
@@ -75,10 +75,7 @@ void LogFileViewWidget::delLogFile(LogFile* _LogFile)
     model->delLogFile(_LogFile);
 }
 
-void LogFileViewWidget::jumpToLine()
+QList<LogFileFilter>* LogFileViewWidget::getLogFileFilterList(void)
 {
-    qDebug() << this->botton->selectionModel()->currentIndex().row();
-
-    //QVariant data = proxymodel->data(this->botton->selectionModel()->currentIndex());
-
+    return &model->LogFileFilters;
 }

@@ -20,10 +20,10 @@ public:
 
 public slots:
 
-    void addLogFile(LogFile* _LogFile);
-    void delLogFile(LogFile* _LogFile);
+    void addLogFile(LogFile* _LogFile);     //Dient zum laden einer Weiteren Datei in den View
+    void delLogFile(LogFile* _LogFile);     //Löscht ein File aus dem View
 
-    void jumpToLine();
+    QList<LogFileFilter>* getLogFileFilterList(void);
 
 signals:
 
@@ -35,9 +35,12 @@ protected:
     LogFileProxyModel *proxymodel;
 
     LogFileViewWidgetIndexBar *indexbar;
+
     QTableView *top;
     QTableView *botton;
+
     QSplitter *split;
+
     QGridLayout *grid;
 
     void changeEvent(QEvent *e);

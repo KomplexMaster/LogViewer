@@ -3,6 +3,8 @@
 #include "logitem.h"
 #include "logfilefilter.h"
 #include "logviewdockwidget.h"
+#include "logfileviewerfilterdockwidget.h"
+#include "logfileviewerfiltereditordockwidget.h"
 #include "logdelegate.h"
 
 
@@ -21,6 +23,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     log->maximumSize();
     connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SLOT(setCount()));
+
+    LogFileViewerFilterDockWidget* fw = new LogFileViewerFilterDockWidget(log);
+    this->addDockWidget(Qt::LeftDockWidgetArea,fw);
+    LogFileViewerFilterEditorDockWidget* few = new LogFileViewerFilterEditorDockWidget(fw);
+    this->addDockWidget(Qt::LeftDockWidgetArea,few);
 }
 
 MainWindow::~MainWindow()
@@ -68,12 +75,12 @@ void MainWindow::addLogFile(LogFile* _log)
 
 void MainWindow::refreshLogFileList()
 {
-    ui->listWidget->clear();
+    //ui->listWidget->clear();
 }
 
 void MainWindow::selectLogFile(QModelIndex i)
 {
-    QList<QListWidgetItem*> lwItems =  ui->listWidget->selectedItems();
+    //QList<QListWidgetItem*> lwItems =  ui->listWidget->selectedItems();
 
     //QList<LogFile*>* selectedLogs = new QList<LogFile*>();
 
@@ -96,6 +103,8 @@ void MainWindow::selectLogFile(QModelIndex i)
 void MainWindow::refresh()
 {
     //LogFile* log = model->getLogFile();
+
+    /*
     LogFileFilter ffilter;
 
     ffilter.from = ui->dateTimeEditFrom->dateTime();
@@ -145,6 +154,7 @@ void MainWindow::refresh()
     this->selectLogFile(QModelIndex());
 
     this->setCount();
+    */
 }
 
 void MainWindow::setCount()
@@ -167,5 +177,10 @@ void MainWindow::leftclick(QModelIndex index)
 
 void MainWindow::setFilterColor()
 {
-    ui->pushButton->setPalette(QPalette(QColorDialog::getColor(Qt::green, this)));
+    //ui->pushButton->setPalette(QPalette(QColorDialog::getColor(Qt::green, this)));
+}
+
+void MainWindow::on_actionFilterEditor_toggled(bool select)
+{
+    //ui->dockWidgetFilterEditor->show();
 }

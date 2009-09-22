@@ -11,7 +11,7 @@ typedef QList<LogItem*> LogItemList;
 
 namespace Propertie
 {
-    enum Propertie {Type,Timestamp,MessageID,SourceID,UNKOWND,Message};
+    enum Propertie {Type,Timestamp,MessageID,SourceID,UNKOWND,Message,LineNumber,LogFile};
 }
 namespace Type
 {
@@ -23,7 +23,7 @@ class LogItem       // LogItem ist eine Zeile eines LogFiles, alle Daten sind ge
 
 public:
 
-    LogItem(const QString LogLine,const int LineNumber, const LogFile* _LogFile);		//Konstruktor wird eine Zeile der Logdatei übergeben und liefert ein LogItem
+    LogItem(const QString LogLine,int LineNumber, LogFile* _LogFile);		//Konstruktor wird eine Zeile der Logdatei übergeben und liefert ein LogItem
 
     QChar          getType(void) const;	//GetFunc für Type
     QDateTime getTimestamp(void) const;	//GetFunc für Timestamp
@@ -47,8 +47,8 @@ protected:
     QDateTime Timestamp;        //Zeitstempel in QDateTime Format
 
 
-    const int LineNumber;             //Zeile des LogFiles
-    const LogFile *File;              //Pointer auf die Date aus der die Zeile ausgelesen wurde.
+    int LineNumber;             //Zeile des LogFiles
+    LogFile *File;              //Pointer auf die Date aus der die Zeile ausgelesen wurde.
 };
 
 QTextStream &operator<<(QTextStream &out,const LogItem &rhs); //Function um ein LogItem leicht durch qDebug auszugeben

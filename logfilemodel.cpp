@@ -22,26 +22,31 @@ QVariant LogFileModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DisplayRole)
     {
+        LogItem* item = LogItems.at(index.row());
+
         switch (index.column())
         {
             case Propertie::Type:
-                return QVariant(LogItems.at(index.row())->getType());
+                return QVariant(item->getType());
             case Propertie::Timestamp:
-                return QVariant(LogItems.at(index.row())->getTimestamp().toString("dd.MM.yyyy hh:mm:ss:zzz"));
+                return QVariant(item->getTimestamp().toString("dd.MM.yyyy hh:mm:ss:zzz"));
             case Propertie::MessageID:
-                return QVariant(LogItems.at(index.row())->getMessageID());
+                return QVariant(item->getMessageID());
             case Propertie::SourceID:
-                return QVariant(LogItems.at(index.row())->getSourceID());
+                return QVariant(item->getSourceID());
             case Propertie::UNKOWND:
-                return QVariant(LogItems.at(index.row())->getUNKOWND());
+                return QVariant(item->getUNKOWND());
             case Propertie::Message:
-                return QVariant(LogItems.at(index.row())->getMessage());
-
+                return QVariant(item->getMessage());
+            case Propertie::LineNumber:
+                return QVariant(item->getLineNumber());
+            case Propertie::LogFile:
+                return QVariant(item->getLogFile()->getFile()->fileName());
             default:
                 return QVariant("false");
         }
     }
-     
+
     else
         return QVariant();
 }
@@ -100,6 +105,10 @@ QVariant LogFileModel::headerData(int section, Qt::Orientation orientation,
          return tr("UNKOWND");
       case Propertie::Message:
          return tr("Message");
+      case Propertie::LineNumber:
+         return tr("Line");
+      case Propertie::LogFile:
+         return tr("LogFile");
      default:
          break;
    }
@@ -108,7 +117,7 @@ QVariant LogFileModel::headerData(int section, Qt::Orientation orientation,
 
 int LogFileModel::columnCount(const QModelIndex &parent) const
 {
-    return 6;
+    return 8;
 }
 
 QList<LogFile*>* LogFileModel::getLogFileList(void)

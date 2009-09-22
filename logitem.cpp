@@ -1,6 +1,6 @@
 #include "logitem.h"
 
-LogItem::LogItem(const QString LogLine, const int _LineNumber, const LogFile* _LogFile):LineNumber(_LineNumber), File(_LogFile)
+LogItem::LogItem(const QString LogLine, int _LineNumber, LogFile* _LogFile):LineNumber(_LineNumber), File(_LogFile)
 {
     QStringList elements = LogLine.split("|");  //Aufteilen in einzellne Element
 
@@ -57,6 +57,16 @@ QString LogItem::getUNKOWND() const
 QString LogItem::getMessage(void) const
 {
     return Message;
+}
+
+LogFile* LogItem::getLogFile(void) const
+{
+    return File;
+}
+
+int LogItem::getLineNumber(void) const
+{
+    return LineNumber;
 }
 
 QTextStream &operator<<(QTextStream &out,const LogItem &rhs)

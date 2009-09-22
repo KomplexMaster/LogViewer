@@ -11,13 +11,15 @@ class LogFileModel : public QAbstractTableModel
 
 protected:
     QList<LogFile*>                         *LogFiles;
-    QList<LogFileFilter>               LogFileFilters;
+
 
     QMap<int, QList<LogItem*>*>  FilterItemMap;
     LogItemList                              LogItems;
 
 
 public:
+    QList<LogFileFilter>               LogFileFilters;
+
     LogFileModel( QObject *parent = 0)
         : QAbstractTableModel(parent), LogFiles(new QList<LogFile*>())
     {
