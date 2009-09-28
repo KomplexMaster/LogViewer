@@ -1,10 +1,6 @@
 <!DOCTYPE QtCreatorProject>
 <qtcreator>
  <data>
-  <variable>RunConfiguration0-BaseEnvironmentBase</variable>
-  <value type="int" >2</value>
- </data>
- <data>
   <variable>RunConfiguration0-CommandLineArguments</variable>
   <valuelist type="QVariantList" />
  </data>
@@ -31,14 +27,6 @@
  <data>
   <variable>RunConfiguration0-UserSetName</variable>
   <value type="bool" >false</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UserSetWorkingDirectory</variable>
-  <value type="bool" >false</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UserWorkingDirectory</variable>
-  <value type="QString" ></value>
  </data>
  <data>
   <variable>RunConfiguration0-type</variable>
@@ -68,7 +56,7 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
    <value key="QtVersionId" type="int" >0</value>
-   <value key="ToolChain" type="int" >202</value>
+   <value key="ToolChain" type="int" >2</value>
    <value key="addQDumper" type="" ></value>
    <value key="buildConfiguration" type="int" >8</value>
    <value key="buildDirectory" type="QString" >F:\netback\LogViewer</value>
@@ -229,7 +217,6 @@
     <value type="QString" >ALLUSERSPROFILE=D:\Dokumente und Einstellungen\All Users.WINXP</value>
     <value type="QString" >APPDATA=D:\Dokumente und Einstellungen\Administrator.ROOZ-7A90DB47F2\Anwendungsdaten</value>
     <value type="QString" >CLASSPATH=.;D:\Programme\Java\jre6\lib\ext\QTJava.zip</value>
-    <value type="QString" >CLIENTNAME=Console</value>
     <value type="QString" >COMMONPROGRAMFILES=D:\Programme\Gemeinsame Dateien</value>
     <value type="QString" >COMPUTERNAME=ROOZ-7A90DB47F2</value>
     <value type="QString" >COMSPEC=D:\WINXP\system32\cmd.exe</value>
@@ -284,7 +271,6 @@
     <value type="QString" >ALLUSERSPROFILE=D:\Dokumente und Einstellungen\All Users.WINXP</value>
     <value type="QString" >APPDATA=D:\Dokumente und Einstellungen\Administrator.ROOZ-7A90DB47F2\Anwendungsdaten</value>
     <value type="QString" >CLASSPATH=.;D:\Programme\Java\jre6\lib\ext\QTJava.zip</value>
-    <value type="QString" >CLIENTNAME=Console</value>
     <value type="QString" >COMMONPROGRAMFILES=D:\Programme\Gemeinsame Dateien</value>
     <value type="QString" >COMPUTERNAME=ROOZ-7A90DB47F2</value>
     <value type="QString" >COMSPEC=D:\WINXP\system32\cmd.exe</value>

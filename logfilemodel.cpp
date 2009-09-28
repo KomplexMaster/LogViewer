@@ -8,7 +8,7 @@ int LogFileModel::rowCount(const QModelIndex &parent) const
 
 int LogFileModel::frowCount(const QModelIndex &parent) const
 {
-    return FilterItemMap.value(-1)->count();
+    return FilterLogItem.count();
 }
 
 
@@ -56,7 +56,7 @@ QVariant LogFileModel::fdata(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= FilterItemMap.value(-1)->size())
+    if (index.row() >= FilterLogItem.size())
         return QVariant();
 
     if (role == Qt::DisplayRole)
@@ -64,17 +64,17 @@ QVariant LogFileModel::fdata(const QModelIndex &index, int role) const
         switch (index.column())
         {
             case Propertie::Type:
-                return QVariant(FilterItemMap.value(-1)->at(index.row())->getType());
+                return QVariant(FilterLogItem.at(index.row())->getType());
             case Propertie::Timestamp:
-                return QVariant(FilterItemMap.value(-1)->at(index.row())->getTimestamp().toString("dd.MM.yyyy hh:mm:ss:zzz"));
+                return QVariant(FilterLogItem.at(index.row())->getTimestamp().toString("dd.MM.yyyy hh:mm:ss:zzz"));
             case Propertie::MessageID:
-                return QVariant(FilterItemMap.value(-1)->at(index.row())->getMessageID());
+                return QVariant(FilterLogItem.at(index.row())->getMessageID());
             case Propertie::SourceID:
-                return QVariant(FilterItemMap.value(-1)->at(index.row())->getSourceID());
+                return QVariant(FilterLogItem.at(index.row())->getSourceID());
             case Propertie::UNKOWND:
-                return QVariant(FilterItemMap.value(-1)->at(index.row())->getUNKOWND());
+                return QVariant(FilterLogItem.at(index.row())->getUNKOWND());
             case Propertie::Message:
-                return QVariant(FilterItemMap.value(-1)->at(index.row())->getMessage());
+                return QVariant(FilterLogItem.at(index.row())->getMessage());
 
             default:
                 return QVariant("false");
@@ -154,37 +154,30 @@ void LogFileModel::refreshItemList()
 
     qDebug() << "LogFileModel::Clear FilterItemMap";
 
-    FilterItemMap.clear();
+    FilterLogItem.clear();
 
     qDebug() << "LogFileModel::fill FilterItemMap";
 
-    foreach(LogFileFilter filter, LogFileFilters)
-    {
-        FilterItemMap.insert(filter.getUID(),new QList<LogItem*>());
-    }
-
-    FilterItemMap.insert(-1,new QList<LogItem*>());
-
-    qDebug() << "FilterItemMap" << FilterItemMap.count();
     qDebug() << "LogFileFilters" << LogFileFilters.count();
 
     qDebug() << "LogFileModel::RefreshItemList";
 
-    foreach(LogFile* file,*LogFiles)
+    foreach(LogFile* file,*LogFiles)                    // geht alle LogFiles durch
     {
-        foreach(LogItem* item, *file->getLogItemList())
+        foreach(LogItem* item, *file->getLogItemList()) // geht jedes LogItem des LogFiles durch
         {
             bool match = false;
             foreach(LogFileFilter filter, LogFileFilters)
             {
                 if(LogFile::filter(item,filter))
                 {
-                    FilterItemMap.value(filter.getUID())->append(item);
+                    FilterLogItem.append(item);
                     match = true;
+                    break;
                 }
             }
             LogItems.append(item);
-            if(match)FilterItemMap.value(-1)->append(item);
+            if(match)FilterLogItem.append(item);
         }
         qDebug() << "LogFileModel::LogFile:" << file->getFile()->fileName() << " Items:" << file->getLogItemList()->count();
     }
@@ -194,23 +187,23 @@ void LogFileModel::refreshItemList()
     emit reset();
 }
 
-QList<LogFileFilter> LogFileModel::getFilters(const QModelIndex &index) const
+QList<LogFileFilter> LogFileModel::getFiltersFromIndex(const QModelIndex &index) const
 {
-    if (!index.isValid())
+    if (!index.isValid())               //Überprüft auf gültichkeit des index
     {
-        return QList<LogFileFilter>();
+        return QList<LogFileFilter>();  //Wenn ungültig wird eine leere Liste zurück gegeben
     }
 
-    if (index.row() >= LogItems.size())
+    if (index.row() >= LogItems.size()) //Überprüft ob index ausserhalb der daten Liegt;
     {
-        return QList<LogFileFilter>();
+        return QList<LogFileFilter>();  //Wenn ja, wird wieder eine leere Liste zurück gegeben
     }
 
-    QList<LogFileFilter> matchedfilter;
+    QList<LogFileFilter> matchedfilter; //Liste Mit allen Filtern auf der das LogItem passt
 
     foreach(LogFileFilter filter, LogFileFilters)
     {
-        if(FilterItemMap.value(filter.getUID())->indexOf(LogItems.at(index.row()))!=-1)
+        if(LogFile::filter(LogItems.at(index.row()),filter))
         {
             matchedfilter.append(filter);
         }
@@ -219,23 +212,23 @@ QList<LogFileFilter> LogFileModel::getFilters(const QModelIndex &index) const
     return matchedfilter;
 }
 
-QList<LogFileFilter> LogFileModel::getfFilters(const QModelIndex &index) const
+QList<LogFileFilter> LogFileModel::getfFiltersFromIndex(const QModelIndex &index) const
 {
     if (!index.isValid())
     {
         return QList<LogFileFilter>();
     }
 
-    if (index.row() >= FilterItemMap.value(-1)->size())
+    if (index.row() >= FilterLogItem.size())
     {
         return QList<LogFileFilter>();
     }
 
-    QList<LogFileFilter> matchedfilter;
+    QList<LogFileFilter> matchedfilter; //Liste Mit allen Filtern auf der das LogItem passt
 
     foreach(LogFileFilter filter, LogFileFilters)
     {
-        if(FilterItemMap.value(filter.getUID())->indexOf(FilterItemMap.value(-1)->at(index.row()))!=-1)
+        if(LogFile::filter(FilterLogItem.at(index.row()),filter))
         {
             matchedfilter.append(filter);
         }
@@ -244,13 +237,49 @@ QList<LogFileFilter> LogFileModel::getfFilters(const QModelIndex &index) const
     return matchedfilter;
 }
 
-void LogFileModel::addLogFileFilter(LogFileFilter _LogFileFilter)
+void LogFileModel::addFilter(LogFileFilter _LogFileFilter)
 {
     LogFileFilters.append(_LogFileFilter);
 
-    qDebug() << "LogFileModel::addLogFileFilter:" << _LogFileFilter.color;
-    qDebug() << "LogFileModel::addLogFileFilter: Uid:" << _LogFileFilter.getUID();
-    qDebug() << "LogFileModel::addLogFileFilter: LogFileFilters count" << LogFileFilters.count();
+    qDebug() << "LogFileModel::addFilter:" << _LogFileFilter.color;
+    qDebug() << "LogFileModel::addFilter: Uid:" << _LogFileFilter.getUID();
+    qDebug() << "LogFileModel::addFilter: LogFileFilters count" << LogFileFilters.count();
 
     emit filterListchange();
+}
+
+void LogFileModel::sortItems(void)
+{
+
+}
+
+QList<LogFileFilter>* LogFileModel::getFilters()
+{
+    return &LogFileFilters;
+}
+
+void LogFileModel::storeFilter(LogFileFilter filter)
+{
+    qDebug() << "LogFileModel::storeFilter: LogFileFilters count" << LogFileFilters.count();
+
+    foreach(LogFileFilter currentFilter, LogFileFilters)
+    {
+        if(currentFilter.getUID()==filter.getUID())
+        {
+            LogFileFilters.replace(LogFileFilters.indexOf(currentFilter),filter);
+
+            emit filterListchange();
+            refreshItemList();
+
+            qDebug() << "LogFileModel::storeFilter: Filter change";
+
+            return;
+        }
+    }
+
+    qDebug() << "LogFileModel::storeFilter: Filter added";
+
+    LogFileFilters.append(filter);
+    emit filterListchange();
+    refreshItemList();
 }

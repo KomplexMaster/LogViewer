@@ -7,8 +7,6 @@
 class LogItem;
 class LogFile;
 
-typedef QList<LogItem*> LogItemList;
-
 namespace Propertie
 {
     enum Propertie {Type,Timestamp,MessageID,SourceID,UNKOWND,Message,LineNumber,LogFile};
@@ -35,6 +33,13 @@ public:
     LogFile*    getLogFile(void) const; //GetFunc für LogFile
 
     friend QTextStream &operator<<(QTextStream &out,const LogItem &rhs); //Function um ein LogItem leicht durch qDebug auszugeben
+    //friend QTextStream &operator<<(QTextStream &out,const LogItem* rhs); //Function um ein LogItem leicht durch qDebug auszugeben
+
+    bool operator<(const LogItem& rhs) const;
+    bool operator>(const LogItem& rhs) const;
+    bool operator==(const LogItem& rhs) const;
+    static bool lessThan( const LogItem &lhs, const LogItem &rhs ){ return lhs<rhs;};
+    static bool lessThan( const LogItem *lhs, const LogItem *rhs ){ return *lhs<*rhs;};
 
 protected:
 
@@ -52,5 +57,8 @@ protected:
 };
 
 QTextStream &operator<<(QTextStream &out,const LogItem &rhs); //Function um ein LogItem leicht durch qDebug auszugeben
+//QTextStream &operator<<(QTextStream &out,const LogItem* rhs); //Function um ein LogItem leicht durch qDebug auszugeben
+
+bool LogItemlessThan( const LogItem *lhs, const LogItem *rhs );
 
 #endif // LOGITEM_H

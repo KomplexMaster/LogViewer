@@ -13,23 +13,36 @@ LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent):QWid
     proxymodel = new LogFileProxyModel(this);
     proxymodel->setSourceModel(model);
 
+   // filterproxy = new QSortFilterProxyModel;
+   // filterproxy->setDynamicSortFilter(true);
+   // filterproxy->setSourceModel(model);
+
+
     LogFileFilter filter;           //REMOVE!!!!!!!!!!
     filter.SourceID = 240;          //REMOVE!!!!!!!!!!
     filter.color    = QColor(105,255,105,255);    //REMOVE!!!!!!!!!!
-    model->addLogFileFilter(filter);//REMOVE!!!!!!!!!!
+    model->addFilter(filter);//REMOVE!!!!!!!!!!
     LogFileFilter filter2;          //REMOVE!!!!!!!!!!
     filter2.SourceID = 17;           //REMOVE!!!!!!!!!!
     filter2.color    = QColor(255,105,105,255);      //REMOVE!!!!!!!!!!
-    model->addLogFileFilter(filter2);//REMOVE!!!!!!!!!!
-    LogFileFilter filter3;          //REMOVE!!!!!!!!!!
+    model->addFilter(filter2);//REMOVE!!!!!!!!!!
+   /* LogFileFilter filter3;          //REMOVE!!!!!!!!!!
     filter3.SourceID = 243;          //REMOVE!!!!!!!!!!
     filter3.color    = Qt::blue;      //REMOVE!!!!!!!!!!
     model->addLogFileFilter(filter3);//REMOVE!!!!!!!!!!
-
+*/
     //Erzeugt die Oberfläche
 
     top = new QTableView();         //erzeugt Views für ungefilterte (top) und gefilltere (botton) Ansicht
     botton = new QTableView();
+
+ //   proxyView = new QTreeView;
+ //   proxyView->setRootIsDecorated(false);
+ //   proxyView->setAlternatingRowColors(true);
+ //   proxyView->setModel(proxymodel);
+ //   proxyView->setSortingEnabled(true);
+
+
 
     this->setLayout(new QHBoxLayout(this));
     indexbar = new LogFileViewWidgetIndexBar(top,this);
@@ -68,6 +81,7 @@ void LogFileViewWidget::changeEvent(QEvent *e)
 void LogFileViewWidget::addLogFile(LogFile* _LogFile)
 {
     model->addLogFile(_LogFile);
+    model->sortItems();
 }
 
 void LogFileViewWidget::delLogFile(LogFile* _LogFile)
@@ -75,7 +89,7 @@ void LogFileViewWidget::delLogFile(LogFile* _LogFile)
     model->delLogFile(_LogFile);
 }
 
-QList<LogFileFilter>* LogFileViewWidget::getLogFileFilterList(void)
+LogFileModel* LogFileViewWidget::getLogFileModel()
 {
-    return &model->LogFileFilters;
+    return model;
 }

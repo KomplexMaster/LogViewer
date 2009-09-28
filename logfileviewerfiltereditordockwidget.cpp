@@ -7,7 +7,8 @@ LogFileViewerFilterEditorDockWidget::LogFileViewerFilterEditorDockWidget(LogFile
 {
     m_ui->setupUi(this);
 
-    connect(parent,SIGNAL(filterselect(LogFileFilter)),this,SLOT(loadFilter(LogFileFilter)));
+    connect(parent,SIGNAL(filterselect(LogFileFilter)),this,SLOT(setFilter(LogFileFilter)));
+    connect(this->m_ui->pushButtonSave,SIGNAL(clicked()),this,SLOT(storeFilter()));
 }
 
 LogFileViewerFilterEditorDockWidget::~LogFileViewerFilterEditorDockWidget()
@@ -29,14 +30,63 @@ void LogFileViewerFilterEditorDockWidget::changeEvent(QEvent *e)
 
 void LogFileViewerFilterEditorDockWidget::setColor()
 {
+    qDebug() << "LogFileViewerFilterEditorDockWidget::getColor";
+
+    QColor newColor = QColorDialog::getColor(Qt::green,parent);
+
+    qDebug() << "LogFileViewerFilterEditorDockWidget::new Color:";
+
+    if(newColor.isValid())filter.color = newColor;
+
+    setFilter(filter);
 }
 
-void LogFileViewerFilterEditorDockWidget::loadFilter(LogFileFilter filter)
+void LogFileViewerFilterEditorDockWidget::setSearchPattern()
 {
+    filter.searchpattern = m_ui->lineEditSearch->text();
+    setFilter(filter);
+}
+
+void LogFileViewerFilterEditorDockWidget::setMessageID()
+{
+    filter.MessageID = m_ui->lineEditMessageID->text().toInt();
+    setFilter(filter);
+}
+
+void LogFileViewerFilterEditorDockWidget::setSourceID()
+{
+    filter.SourceID = m_ui->lineEditSourceID->text().toInt();
+    setFilter(filter);
+}
+
+LogFileFilter LogFileViewerFilterEditorDockWidget::getLogFileFilter()
+{
+    return filter;
+}
+
+void LogFileViewerFilterEditorDockWidget::setFilter(LogFileFilter _filter)
+{
+    filter = _filter;
+
     m_ui->pushButton->setPalette(QPalette(filter.color));
     m_ui->dateTimeEditFrom->setDateTime(filter.from);
     m_ui->dateTimeEditTo->setDateTime(filter.to);
     m_ui->lineEditMessageID->setText(QString::number(filter.MessageID));
     m_ui->lineEditSourceID->setText(QString::number(filter.SourceID));
     m_ui->lineEditSearch->setText(filter.searchpattern);
+}
+
+void LogFileViewerFilterEditorDockWidget::setFrom(QDateTime _from)
+{
+    filter.from = _from;
+}
+
+void LogFileViewerFilterEditorDockWidget::setTo(QDateTime _to)
+{
+    filter.to = _to;
+}
+
+void LogFileViewerFilterEditorDockWidget::storeFilter()
+{
+    parent->storeFilter(filter);
 }

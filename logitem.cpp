@@ -75,3 +75,44 @@ QTextStream &operator<<(QTextStream &out,const LogItem &rhs)
     out << rhs.Timestamp.toString();
     return out;
 }
+
+/*QTextStream &operator<<(QTextStream &out,const LogItem *rhs)
+{
+    out << "Type:" << rhs->getType() << " Timestamp:";
+    out << rhs->Timestamp.toString();
+    return out;
+}*/
+
+bool LogItem::operator<(const LogItem& rhs) const
+{
+    if(Timestamp==rhs.getTimestamp())
+    {
+        return (LineNumber<rhs.getLineNumber());
+    }
+    return (Timestamp<rhs.getTimestamp());
+}
+
+bool LogItem::operator>(const LogItem& rhs) const
+{
+    if(Timestamp==rhs.getTimestamp())
+    {
+        return (LineNumber>rhs.getLineNumber());
+    }
+    return (Timestamp>rhs.getTimestamp());
+}
+
+bool LogItem::operator==(const LogItem& rhs) const
+{
+    if(Timestamp==rhs.getTimestamp())
+    {
+        return (LineNumber==rhs.getLineNumber());
+    }
+    return false;
+}
+
+bool LogItemlessThan( const LogItem *lhs, const LogItem *rhs )
+{
+    //qDebug() << lhs->getTimestamp() << "<->" << rhs->getTimestamp();
+    return *lhs<*rhs;
+};
+

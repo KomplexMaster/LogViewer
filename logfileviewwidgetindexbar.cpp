@@ -10,6 +10,8 @@ LogFileViewWidgetIndexBar::LogFileViewWidgetIndexBar(QTableView* _tView, QWidget
     setBaseSize(20,20);
 
     recalScale();
+
+    connect(_tView->model(),SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SLOT(recalScale()));
 }
 
 QSize LogFileViewWidgetIndexBar::minimumSize(void)
@@ -53,7 +55,7 @@ void LogFileViewWidgetIndexBar::recalScale()
                 for(int j = (double)i*factor; j<=(double)(i+1)*factor; j++)
                 {
 
-                    QList<LogFileFilter> filters = model->getFilters(model->index(j,0));
+                    QList<LogFileFilter> filters = model->getFiltersFromIndex(model->index(j,0));
 
                     if(!filters.isEmpty())
                     {

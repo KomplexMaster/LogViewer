@@ -47,7 +47,7 @@ int LogItemParser::getstopPos(void)
     return stopPos;
 }
 
-LogItemList* LogItemParser::getLogItemList(void)
+QList<LogItem*>* LogItemParser::getLogItemList(void)
 {
     return &LogItems;
 }

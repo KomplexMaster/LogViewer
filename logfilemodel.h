@@ -13,12 +13,17 @@ protected:
     QList<LogFile*>                         *LogFiles;
 
 
-    QMap<int, QList<LogItem*>*>  FilterItemMap;
+    LogItemList                         FilterLogItem;
     LogItemList                              LogItems;
 
+    QList<LogFileFilter>               LogFileFilters;          //Liste mit allen Filtern die angewand werden
 
 public:
-    QList<LogFileFilter>               LogFileFilters;
+
+    //***Filter
+    QList<LogFileFilter>* getFilters();             //Liefert Liste mit allen Filtern zurück
+    void addFilter(LogFileFilter _LogFileFilter);   //Fügt einen Filter in die Liste Hinzu und Löst das Signal "filterListchange()" aus
+    void storeFilter(LogFileFilter filter);         //Function dient zum Speichern von Bestehenden und Neuen Filtern
 
     LogFileModel( QObject *parent = 0)
         : QAbstractTableModel(parent), LogFiles(new QList<LogFile*>())
@@ -31,8 +36,8 @@ public:
     int frowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
-    QList<LogFileFilter> getFilters(const QModelIndex &index = QModelIndex()) const;
-    QList<LogFileFilter> getfFilters(const QModelIndex &index = QModelIndex()) const;
+    QList<LogFileFilter> getFiltersFromIndex(const QModelIndex &index = QModelIndex()) const;
+    QList<LogFileFilter> getfFiltersFromIndex(const QModelIndex &index = QModelIndex()) const;
 
     QVariant data(const QModelIndex &index, int role) const;
     QVariant fdata(const QModelIndex &index, int role) const;
@@ -44,14 +49,11 @@ public:
     void             addLogFile(LogFile* _LogFile);
     void             delLogFile(LogFile* _LogFile);
 
-    //QList<LogFileFilter> getLogFileFilters(void);
-    //void                 setLogFileFilters(QList<LogFileFilter> _LogFileFilters);
-    void                 addLogFileFilter(LogFileFilter _LogFileFilter);
-    //void                 delLogFileFilter(LogFileFilter _LogFileFilter);
-
     void setLogFile(LogFile *_logfile);
 
     LogFile* getLogFile(void);
+
+    void sortItems(void);
 
 public slots:
 

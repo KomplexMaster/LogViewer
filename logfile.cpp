@@ -162,6 +162,12 @@ void LogFile::threadFinished(void)
 
     qDebug() << "LogFile::ParserThread:" << ParserThread.size();
 
+    qDebug() << (LogItems.at(0) < LogItems.at(1));
+    qDebug() << (LogItems.at(1) < LogItems.at(2));
+    qDebug() << (LogItems.at(2) < LogItems.at(3));
+    qDebug() << (LogItems.at(3) < LogItems.at(4));
+    qDebug() << (LogItems.at(4) < LogItems.at(5));
+
     emit this->readFinished();
 }
 

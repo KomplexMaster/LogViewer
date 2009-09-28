@@ -25,3 +25,14 @@ bool operator>(LogFileFilter lhs,const LogFileFilter rhs)
     if(lhs.uid>rhs.uid)return true;
     return false;
 }
+
+QTextStream &operator<<(QTextStream &out,const LogFileFilter &rhs)
+{
+    out << "Filter->UID:" << rhs.uid;
+    out << " From:" << rhs.from.toString();
+    out << " To:" << rhs.to.toString();
+    out << " MessageID:" << rhs.MessageID;
+    out << " SourceID" << rhs.SourceID;
+    out << " Type" << rhs.Type;
+    return out;
+}

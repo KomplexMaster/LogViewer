@@ -46,7 +46,7 @@ void LogFileViewerFilterDockWidget::filterChange()
 {
     if(parent)
     {
-        QList<LogFileFilter>* filterList = parent->getLogFileFilterList();
+        QList<LogFileFilter>* filterList = parent->getLogFileModel()->getFilters();
 
         model->removeRows(0,model->rowCount());
 
@@ -55,6 +55,8 @@ void LogFileViewerFilterDockWidget::filterChange()
         foreach(LogFileFilter filter,*filterList)
         {
             addFilter(&filter);
+
+            qDebug() << "LogFileViewerFilterDockWidget::filterList:" << filter.getUID() << " date: " << filter.to.toString();
         }
 
         qDebug() << "LogFileViewerFilterDockWidget::model:" << model->rowCount();
@@ -80,7 +82,7 @@ void LogFileViewerFilterDockWidget::selectFilter(QModelIndex index)
     {
         int uid = model->index(index.row(),2).data().toInt();
 
-        foreach(LogFileFilter filter,*parent->getLogFileFilterList())
+        foreach(LogFileFilter filter,*parent->getLogFileModel()->getFilters())
         {
             if(filter.getUID() == uid)
             {
@@ -88,4 +90,13 @@ void LogFileViewerFilterDockWidget::selectFilter(QModelIndex index)
             }
         }
     }
+}
+
+void LogFileViewerFilterDockWidget::storeFilter(LogFileFilter filter)
+{
+    qDebug() << "LogFileViewerFilterDockWidget::Store Filter:" << filter.getUID();
+
+    parent->getLogFileModel()->storeFilter(filter);
+
+    filterChange();
 }

@@ -23,7 +23,7 @@ public slots:
     void addLogFile(LogFile* _LogFile);     //Dient zum laden einer Weiteren Datei in den View
     void delLogFile(LogFile* _LogFile);     //Löscht ein File aus dem View
 
-    QList<LogFileFilter>* getLogFileFilterList(void);
+    LogFileModel* getLogFileModel();        //gibt LogFileModel zurück
 
 signals:
 
@@ -33,11 +33,14 @@ protected:
 
     LogFileModel           *model;
     LogFileProxyModel *proxymodel;
+    QSortFilterProxyModel *filterproxy;
+
 
     LogFileViewWidgetIndexBar *indexbar;
 
     QTableView *top;
     QTableView *botton;
+    QTreeView  *proxyView;
 
     QSplitter *split;
 

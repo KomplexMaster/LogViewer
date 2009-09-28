@@ -26,6 +26,8 @@ public:
 
     int getUID(void){return uid;}
 
+    friend QTextStream &operator<<(QTextStream &out,const LogFileFilter &rhs); //Function um ein LogFileFilter leicht durch qDebug auszugeben
+
 private:
 
     int uid;
@@ -45,5 +47,7 @@ bool operator<(LogFileFilter lhs, LogFileFilter rhs);
 bool operator>(LogFileFilter lhs, LogFileFilter rhs);
 
 bool operator==(LogFileFilter &lhs,const LogFileFilter &rhs);
+
+QTextStream &operator<<(QTextStream &out,const LogFileFilter &rhs); //Function um ein LogFileFilter leicht durch qDebug auszugeben
 
 #endif // LOGFILEFILTER_H

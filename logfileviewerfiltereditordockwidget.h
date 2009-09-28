@@ -15,13 +15,25 @@ public:
     LogFileViewerFilterEditorDockWidget(LogFileViewerFilterDockWidget *parent = 0);
     ~LogFileViewerFilterEditorDockWidget();
 
+    LogFileFilter getLogFileFilter(void);
+
+
 public slots:
     void setColor();
-    void loadFilter(LogFileFilter filter);
+    void setFilter(LogFileFilter _filter);
+    void setFrom(QDateTime _from);
+    void setTo(QDateTime _to);
+
+    void setSearchPattern();
+    void setMessageID();
+    void setSourceID();
+
+    void storeFilter();
 
 protected:
     void changeEvent(QEvent *e);
     LogFileViewerFilterDockWidget* parent;
+    LogFileFilter filter;
 
 private:
     Ui::LogFileViewerFilterEditorDockWidget *m_ui;

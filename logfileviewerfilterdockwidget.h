@@ -18,6 +18,7 @@ public:
 public slots:
 
     void filterChange(void);
+    void storeFilter(LogFileFilter filter);
 
 private slots:
 
