@@ -4,13 +4,13 @@
 #include <QtGui>
 #include <QTableView>
 #include <QSplitter>
-#include "logfileviewwidgetindexbar.h"
 #include "logfilemodel.h"
 #include "logfileproxymodel.h"
 
 namespace Ui {
     class LogFileViewWidget;
 }
+
 
 class LogFileViewWidget : public QWidget {
     Q_OBJECT
@@ -22,21 +22,28 @@ public slots:
 
     void addLogFile(LogFile* _LogFile);     //Dient zum laden einer Weiteren Datei in den View
     void delLogFile(LogFile* _LogFile);     //Löscht ein File aus dem View
-
+    void loadLogFile(QString LogName);      //Function dien zum laden von LogFile mit hilfe eine Chain
     LogFileModel* getLogFileModel();        //gibt LogFileModel zurück
+    void loadNextLogFile();                 //stösst nächstes zu ladende LogFile an
+    QString getStatusMessage();             //Liefert StatusMessage mit Anzahl der LogItems und so ..
 
 signals:
 
-    void changeLogFiles();
+    void changeData();
 
 protected:
+
+    QStringList waitingChain;               //Container mit noch zu ladenen LogFiles
+    LogFile* currentLoadingFile;            //Pointer auf ein LogFile das gerade geladen wird;
+
+    QSettings       settings;               //Dient zum laden von Settings
 
     LogFileModel           *model;
     LogFileProxyModel *proxymodel;
     QSortFilterProxyModel *filterproxy;
 
-
-    LogFileViewWidgetIndexBar *indexbar;
+    void loadColumnWidth();                 //läd Zeilenbreite aus der in der Regestry
+    void saveColumnWidth();                 //speichert Zeilenbreite in der Regestry
 
     QTableView *top;
     QTableView *botton;

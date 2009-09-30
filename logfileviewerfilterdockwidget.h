@@ -19,6 +19,8 @@ public slots:
 
     void filterChange(void);
     void storeFilter(LogFileFilter filter);
+    void addFilter();
+    void delFilter();
 
 private slots:
 
@@ -29,6 +31,8 @@ signals:
     void filterselect(LogFileFilter filter);
 
 protected:
+    LogFileFilter filter;
+
     LogFileViewWidget *parent;
     QStandardItemModel *model;
 

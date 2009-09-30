@@ -76,13 +76,6 @@ QTextStream &operator<<(QTextStream &out,const LogItem &rhs)
     return out;
 }
 
-/*QTextStream &operator<<(QTextStream &out,const LogItem *rhs)
-{
-    out << "Type:" << rhs->getType() << " Timestamp:";
-    out << rhs->Timestamp.toString();
-    return out;
-}*/
-
 bool LogItem::operator<(const LogItem& rhs) const
 {
     if(Timestamp==rhs.getTimestamp())
@@ -114,5 +107,74 @@ bool LogItemlessThan( const LogItem *lhs, const LogItem *rhs )
 {
     //qDebug() << lhs->getTimestamp() << "<->" << rhs->getTimestamp();
     return *lhs<*rhs;
-};
+}
 
+bool LogItemlessThanType( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getType() < rhs->getType();
+}
+
+//Functionen zum Sortieren
+//lessThan
+
+bool LogItem::LogItemlessThanType( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getType() < rhs->getType();
+}
+
+bool LogItem::LogItemlessThanMessageID( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getMessageID() < rhs->getMessageID();
+}
+
+bool LogItem::LogItemlessThanSourceID( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getSourceID() < rhs->getSourceID();
+}
+
+bool LogItem::LogItemlessThanTimestamp( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getTimestamp() < rhs->getTimestamp();
+}
+
+bool LogItem::LogItemlessThanLineNumber( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getLineNumber() < rhs->getLineNumber();
+}
+
+bool LogItem::LogItemlessThanMessage( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getMessage() < rhs->getMessage();
+}
+
+//greater
+
+bool LogItem::LogItemgreaterThanType( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getType() > rhs->getType();
+}
+
+bool LogItem::LogItemgreaterThanMessageID( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getMessageID() > rhs->getMessageID();
+}
+
+bool LogItem::LogItemgreaterThanSourceID( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getSourceID() > rhs->getSourceID();
+}
+
+bool LogItem::LogItemgreaterThanTimestamp( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getTimestamp() > rhs->getTimestamp();
+}
+
+bool LogItem::LogItemgreaterThanLineNumber( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getLineNumber() > rhs->getLineNumber();
+}
+
+bool LogItem::LogItemgreaterThanMessage( const LogItem *lhs, const LogItem *rhs )
+{
+    return lhs->getMessage() > rhs->getMessage();
+}

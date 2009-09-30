@@ -11,18 +11,21 @@ class LogFileFilter
 
 public:
 
-    LogFileFilter(): Type('-'), MessageID(-1), SourceID(-1),uid(LogFileFilterPop)
+    LogFileFilter(): Color(Qt::white), Type('-'), MessageID(-1), SourceID(-1),invert(false),uid(LogFileFilterPop)
     {
             LogFileFilterPop++;
     }
 
-    QColor color;
+    QColor Color;
 
     QDateTime from;
     QDateTime to;
     QChar Type;
     int MessageID,SourceID;
     QString searchpattern;
+    QString name;
+    bool invert;
+
 
     int getUID(void){return uid;}
 

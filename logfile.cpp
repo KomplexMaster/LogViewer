@@ -99,6 +99,12 @@ void LogFile::filter(LogItemList* in, LogItemList* out, LogFileFilter filter)
 
 bool LogFile::filter(LogItem* item, LogFileFilter filter)
 {
+    if(!filter.invert)return LogFile::FilterCheck(item,filter);
+    if(filter.invert)return !LogFile::FilterCheck(item,filter);
+}
+
+bool LogFile::FilterCheck(LogItem* item, LogFileFilter filter)
+{
     if(filter.from.isValid())
     {
         if(item->getTimestamp() < filter.from)return false;
@@ -136,14 +142,18 @@ bool LogFile::filter(LogItem* item, LogFileFilter filter)
 
 void LogFile::threadFinished(void)
 {
-    qDebug() << "LogFile::" << "Thread finished";
+    qDebug() << "LogFile::Thread finished";
 
     foreach(LogItemParser* parser,ParserThread)
     {
-        if(parser->isRunning())return;
+        if(parser->isRunning())
+        {
+            parser->wait();
+            if(parser->isRunning())return;
+        }
     }    
 
-    qDebug() << "LogFile::" << "all Thread are finished";
+    qDebug() << "LogFile::all Thread are finished";
 
     qDebug() << "LogFile::Append LogItemLits to MainList" << QTime::currentTime();
 
@@ -152,7 +162,11 @@ void LogFile::threadFinished(void)
         this->LogItems.append(*parser->getLogItemList());
     }
 
-    while(ParserThread.size()!=0)ParserThread.clear();
+    while(ParserThread.size()!=0)
+    {
+        delete ParserThread.first();
+        ParserThread.removeFirst();
+    }
 
     lograwlist.clear();
 
@@ -162,13 +176,13 @@ void LogFile::threadFinished(void)
 
     qDebug() << "LogFile::ParserThread:" << ParserThread.size();
 
-    qDebug() << (LogItems.at(0) < LogItems.at(1));
-    qDebug() << (LogItems.at(1) < LogItems.at(2));
-    qDebug() << (LogItems.at(2) < LogItems.at(3));
-    qDebug() << (LogItems.at(3) < LogItems.at(4));
-    qDebug() << (LogItems.at(4) < LogItems.at(5));
-
     emit this->readFinished();
+}
+
+bool LogFile::isLoaded()
+{
+    if(ParserThread.size()==0)return true;
+    return false;
 }
 
 QList<LogItemParser*>* LogFile::getParserThread(void)

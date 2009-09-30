@@ -69,5 +69,7 @@ void LogItemParserDialog::refresh(void)
         double sec = (double)logFile->getStartTime().msecsTo(QTime::currentTime()); //setzt die vergangene Sekunden
 
         ui->lps->setText(QString::number((double)linesfinished/(sec),'g',5)+"k");   //berechnet die Gechschwindigkeit anhand von AbgearbeitetenZeilen / vergangene Sekunden
+
+        logFile->threadFinished();
     }
 }

@@ -41,6 +41,20 @@ public:
     static bool lessThan( const LogItem &lhs, const LogItem &rhs ){ return lhs<rhs;};
     static bool lessThan( const LogItem *lhs, const LogItem *rhs ){ return *lhs<*rhs;};
 
+    static bool LogItemlessThanType( const LogItem *lhs, const LogItem *rhs );
+    static bool LogItemlessThanMessageID( const LogItem *lhs, const LogItem *rhs );
+    static bool LogItemlessThanSourceID( const LogItem *lhs, const LogItem *rhs );
+    static bool LogItemlessThanTimestamp( const LogItem *lhs, const LogItem *rhs );
+    static bool LogItemlessThanLineNumber( const LogItem *lhs, const LogItem *rhs );
+    static bool LogItemlessThanMessage( const LogItem *lhs, const LogItem *rhs );
+
+    static bool LogItemgreaterThanType( const LogItem *lhs, const LogItem *rhs );
+    static bool LogItemgreaterThanMessageID( const LogItem *lhs, const LogItem *rhs );
+    static bool LogItemgreaterThanSourceID( const LogItem *lhs, const LogItem *rhs );
+    static bool LogItemgreaterThanTimestamp( const LogItem *lhs, const LogItem *rhs );
+    static bool LogItemgreaterThanLineNumber( const LogItem *lhs, const LogItem *rhs );
+    static bool LogItemgreaterThanMessage( const LogItem *lhs, const LogItem *rhs );
+
 protected:
 
     int LogItemID;		//LogItem ID, ist eine uid
@@ -57,7 +71,6 @@ protected:
 };
 
 QTextStream &operator<<(QTextStream &out,const LogItem &rhs); //Function um ein LogItem leicht durch qDebug auszugeben
-//QTextStream &operator<<(QTextStream &out,const LogItem* rhs); //Function um ein LogItem leicht durch qDebug auszugeben
 
 bool LogItemlessThan( const LogItem *lhs, const LogItem *rhs );
 

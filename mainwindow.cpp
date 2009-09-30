@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mdiArea->activeSubWindow()->showMaximized();
 
     log->maximumSize();
-    connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SLOT(setCount()));
+    connect(log->getLogFileModel(),SIGNAL(filterListchange()),this,SLOT(refresh()));
+    connect(log,SIGNAL(changeData()),this,SLOT(refresh()));
 
     LogFileViewerFilterDockWidget* fw = new LogFileViewerFilterDockWidget(log);
     this->addDockWidget(Qt::LeftDockWidgetArea,fw);
@@ -42,17 +43,14 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    //QColor color = QColorDialog::getColor(Qt::green, this);
     QStringList FileNames = QFileDialog::getOpenFileNames(this, tr("Open Log"), "", tr("Log File (*.log)"));
-
-    foreach(QString FileName,FileNames)
-    {
-        this->addLogFile(loadLogFile(new QFile(FileName)));
-    }
 
     LogFileViewWidget* w =  qobject_cast<LogFileViewWidget *>(ui->mdiArea->currentSubWindow()->widget());
 
-    if(w)w->addLogFile(this->LogFiles.last());
+    foreach(QString FileName,FileNames)
+    {
+        w->loadLogFile(FileName);
+    }
 
     refreshLogFileList();
 }
@@ -102,65 +100,15 @@ void MainWindow::selectLogFile(QModelIndex i)
 
 void MainWindow::refresh()
 {
-    //LogFile* log = model->getLogFile();
-
-    /*
-    LogFileFilter ffilter;
-
-    ffilter.from = ui->dateTimeEditFrom->dateTime();
-    ffilter.to   = ui->dateTimeEditTo->dateTime();
-
-    if(!ui->lineEditMessageID->text().isEmpty())
-    {
-        ffilter.MessageID = ui->lineEditMessageID->text().toInt();
-    }else{
-        ffilter.MessageID = -1;
-    }
-
-    if(!ui->lineEditSourceID->text().isEmpty())
-    {
-        ffilter.SourceID = ui->lineEditSourceID->text().toInt();
-    }else{
-        ffilter.SourceID = -1;
-    }
-
-    if(!ui->comboBoxSeverity->currentIndex()==0)
-    {
-        switch(ui->comboBoxSeverity->currentIndex()-1)
-        {
-            case Type::Action: ffilter.Type = 'A';break;
-            case Type::Information: ffilter.Type = 'I';break;
-            case Type::Telegram: ffilter.Type = 'T';break;
-            case Type::Warning: ffilter.Type = 'W';break;
-            case Type::Recoverable: ffilter.Type = 'R';break;
-            case Type::Error: ffilter.Type = 'E';break;
-            case Type::Fatal: ffilter.Type = 'F';break;
-            default: ffilter.Type = '-';break;
-        }
-    }else{
-        ffilter.Type = '-';
-    }
-
-    if(!ui->lineEditSearch->text().isEmpty())
-    {
-        ffilter.searchpattern = ui->lineEditSearch->text();
-    }
-
-    //log->setLogFileFilter(ffilter);
-    //log->filter(log->getLogItemList(),log->getFilteredLogItemList(), log->getLogFileFilter());
-
-    //model->setLogFile(log);
-
-    this->selectLogFile(QModelIndex());
-
-    this->setCount();
-    */
+    qDebug() << "MainWindow::refresh()";
+    LogFileViewWidget* w =  qobject_cast<LogFileViewWidget *>(ui->mdiArea->currentSubWindow()->widget());
+    ui->statusBar->clearMessage();
+    ui->statusBar->showMessage(w->getStatusMessage());
 }
 
 void MainWindow::setCount()
 {
-    ui->statusBar->clearMessage();
-    ui->statusBar->showMessage(QString::number(model->rowCount()) + tr(" LogItems in the list"));
+
 }
 
 void MainWindow::leftclick(QModelIndex index)

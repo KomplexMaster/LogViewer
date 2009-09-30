@@ -31,12 +31,12 @@ void LogDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & optio
 
         foreach(LogFileFilter filter,filters)
         {
-            if(filter.color.isValid())ColorCount++;
+            if(filter.Color.isValid())ColorCount++;
         }
 
         if(!filters.empty())
         {
-            painter->fillRect(option.rect, QBrush(filters.first().color,Qt::SolidPattern));
+            painter->fillRect(option.rect, QBrush(filters.first().Color,Qt::SolidPattern));
         }
 
         /*

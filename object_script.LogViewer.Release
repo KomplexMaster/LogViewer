@@ -7,7 +7,6 @@ INPUT(
 ./release/logfilefilter.o
 ./release/logdelegate.o
 ./release/logfileviewwidget.o
-./release/logfileviewwidgetindexbar.o
 ./release/logfileproxymodel.o
 ./release/logviewdockwidget.o
 ./release/logitemparser.o

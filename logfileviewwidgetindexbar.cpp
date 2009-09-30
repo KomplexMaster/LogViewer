@@ -1,17 +1,15 @@
 #include "logfileviewwidgetindexbar.h"
+#include "logfileviewwidget.h"
 #include <QPainter>
 #include <qDebug>
 #include <QScrollBar>
 
-LogFileViewWidgetIndexBar::LogFileViewWidgetIndexBar(QTableView* _tView, QWidget *parent):QWidget(parent), tView(_tView)
+LogFileViewWidgetIndexBar::LogFileViewWidgetIndexBar(LogFileViewWidget *parent):QWidget(parent)
 {
     setMinimumWidth(20);
     setMaximumWidth(20);
-    setBaseSize(20,20);
 
     recalScale();
-
-    connect(_tView->model(),SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SLOT(recalScale()));
 }
 
 QSize LogFileViewWidgetIndexBar::minimumSize(void)
@@ -27,13 +25,14 @@ void LogFileViewWidgetIndexBar::paintEvent(QPaintEvent *event)
         QWidget::paintEvent(event);
         QPainter p(this);
 
-        if(size()!=scale->size())recalScale();
+        //if(size()!=scale->size())recalScale();
 
         p.drawPixmap(0,0,*scale);
 }
 
 void LogFileViewWidgetIndexBar::recalScale()
 {
+    /*
     delete scale;
     scale = new QPixmap(this->size());
 
@@ -41,12 +40,12 @@ void LogFileViewWidgetIndexBar::recalScale()
 
     p.fillRect(QRectF(QPointF(0,0),size()),QBrush(Qt::white,Qt::SolidPattern));
 
-    if(tView->model())
+    if(parent->getLogFileModel())
     {
-        int raw = tView->model()->rowCount();
+        int raw = parent->getLogFileModel()->rowCount();
         double factor = raw / (double)size().height();
 
-        LogFileModel*        model =  qobject_cast<LogFileModel *>(tView->model());
+        LogFileModel*        model =  qobject_cast<LogFileModel *>(parent->getLogFileModel());
 
         if(model)
         {
@@ -59,20 +58,16 @@ void LogFileViewWidgetIndexBar::recalScale()
 
                     if(!filters.isEmpty())
                     {
-                        if(filters.first().color.isValid())
+                        if(filters.first().Color.isValid())
                         {
-                            p.setPen(filters.first().color);
+                            p.setPen(filters.first().Color);
                             p.drawLine(0,i,size().width(),i);
                             break;
                         }
                     }
                 }
             }
+            update();
         }
-    }
-    else
-    {
-
-    }
-
+    }*/
 }

@@ -70,8 +70,8 @@ void LogFileViewerFilterDockWidget::filterChange()
 void LogFileViewerFilterDockWidget::addFilter(LogFileFilter* filter)
 {
     model->insertRow(0);
-    model->setData(model->index(0, 0), "Filter");
-    model->setData(model->index(0, 1), filter->color);
+    model->setData(model->index(0, 0), filter->name);
+    model->setData(model->index(0, 1), filter->Color);
     model->setData(model->index(0, 2), filter->getUID());
     model->setData(model->index(0, 3), false);
 }
@@ -86,11 +86,15 @@ void LogFileViewerFilterDockWidget::selectFilter(QModelIndex index)
         {
             if(filter.getUID() == uid)
             {
+                this->filter = filter;
                 emit filterselect(filter);
+                return;
             }
         }
     }
 }
+
+
 
 void LogFileViewerFilterDockWidget::storeFilter(LogFileFilter filter)
 {
@@ -100,3 +104,18 @@ void LogFileViewerFilterDockWidget::storeFilter(LogFileFilter filter)
 
     filterChange();
 }
+
+void LogFileViewerFilterDockWidget::addFilter()
+{
+    LogFileFilter newfilter;
+    newfilter.name = "Filter Nr."+QString::number(newfilter.getUID());
+    parent->getLogFileModel()->addFilter(newfilter);
+    filterChange();
+}
+
+void LogFileViewerFilterDockWidget::delFilter()
+{
+    parent->getLogFileModel()->delFilter(this->filter);
+    filterChange();
+}
+

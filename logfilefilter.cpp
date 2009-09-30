@@ -2,7 +2,7 @@
 
 bool operator==(LogFileFilter &lhs,const LogFileFilter &rhs)
 {
-    if(lhs.color!=rhs.color)return false;
+    if(lhs.Color!=rhs.Color)return false;
     if(lhs.from!=rhs.from)return false;
     if(lhs.MessageID!=rhs.MessageID)return false;
     if(lhs.searchpattern!=rhs.searchpattern)return false;

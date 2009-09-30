@@ -2,20 +2,27 @@
 #define LOGFILEVIEWWIDGETINDEXBAR_H
 
 #include <QWidget>
-#include <QTableView>
-#include "logfilemodel.h"
+#include "logfileviewwidget.h"
+
+class LogFileViewWidget;
 
 class LogFileViewWidgetIndexBar : public QWidget
 {
+    Q_OBJECT
+
 protected:
-    QTableView* tView;
+
+    LogFileViewWidget* parent;
+
     void paintEvent(QPaintEvent* event);
 
     QPixmap* scale;
 
 public:
-    LogFileViewWidgetIndexBar(QTableView* _tView, QWidget *parent = 0);
+    LogFileViewWidgetIndexBar(LogFileViewWidget *parent);
+
     QSize minimumSize(void);
+
 public slots:
 
     void recalScale(void);

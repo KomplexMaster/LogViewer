@@ -36,7 +36,7 @@ void LogFileViewerFilterEditorDockWidget::setColor()
 
     qDebug() << "LogFileViewerFilterEditorDockWidget::new Color:";
 
-    if(newColor.isValid())filter.color = newColor;
+    if(newColor.isValid())filter.Color = newColor;
 
     setFilter(filter);
 }
@@ -68,12 +68,13 @@ void LogFileViewerFilterEditorDockWidget::setFilter(LogFileFilter _filter)
 {
     filter = _filter;
 
-    m_ui->pushButton->setPalette(QPalette(filter.color));
+    m_ui->pushButton->setPalette(QPalette(filter.Color));
     m_ui->dateTimeEditFrom->setDateTime(filter.from);
     m_ui->dateTimeEditTo->setDateTime(filter.to);
     m_ui->lineEditMessageID->setText(QString::number(filter.MessageID));
     m_ui->lineEditSourceID->setText(QString::number(filter.SourceID));
     m_ui->lineEditSearch->setText(filter.searchpattern);
+    m_ui->checkBoxInvert->setChecked(filter.invert);
 }
 
 void LogFileViewerFilterEditorDockWidget::setFrom(QDateTime _from)
@@ -88,5 +89,12 @@ void LogFileViewerFilterEditorDockWidget::setTo(QDateTime _to)
 
 void LogFileViewerFilterEditorDockWidget::storeFilter()
 {
+    filter.searchpattern    = m_ui->lineEditSearch->text();
+    filter.MessageID        = m_ui->lineEditMessageID->text().toInt();
+    filter.SourceID         = m_ui->lineEditSourceID->text().toInt();
+    filter.from             = m_ui->dateTimeEditFrom->dateTime();
+    filter.to               = m_ui->dateTimeEditTo->dateTime();
+    filter.invert           = m_ui->checkBoxInvert->isChecked();
+
     parent->storeFilter(filter);
 }

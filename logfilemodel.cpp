@@ -8,7 +8,7 @@ int LogFileModel::rowCount(const QModelIndex &parent) const
 
 int LogFileModel::frowCount(const QModelIndex &parent) const
 {
-    return FilterLogItem.count();
+    return FilterLogItems.count();
 }
 
 
@@ -56,26 +56,31 @@ QVariant LogFileModel::fdata(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= FilterLogItem.size())
+    if (index.row() >= FilterLogItems.size())
         return QVariant();
 
     if (role == Qt::DisplayRole)
     {
+        LogItem* item = FilterLogItems.at(index.row());
+
         switch (index.column())
         {
             case Propertie::Type:
-                return QVariant(FilterLogItem.at(index.row())->getType());
+                return QVariant(item->getType());
             case Propertie::Timestamp:
-                return QVariant(FilterLogItem.at(index.row())->getTimestamp().toString("dd.MM.yyyy hh:mm:ss:zzz"));
+                return QVariant(item->getTimestamp().toString("dd.MM.yyyy hh:mm:ss:zzz"));
             case Propertie::MessageID:
-                return QVariant(FilterLogItem.at(index.row())->getMessageID());
+                return QVariant(item->getMessageID());
             case Propertie::SourceID:
-                return QVariant(FilterLogItem.at(index.row())->getSourceID());
+                return QVariant(item->getSourceID());
             case Propertie::UNKOWND:
-                return QVariant(FilterLogItem.at(index.row())->getUNKOWND());
+                return QVariant(item->getUNKOWND());
             case Propertie::Message:
-                return QVariant(FilterLogItem.at(index.row())->getMessage());
-
+                return QVariant(item->getMessage());
+            case Propertie::LineNumber:
+                return QVariant(item->getLineNumber());
+            case Propertie::LogFile:
+                return QVariant(item->getLogFile()->getFile()->fileName());
             default:
                 return QVariant("false");
         }
@@ -154,7 +159,7 @@ void LogFileModel::refreshItemList()
 
     qDebug() << "LogFileModel::Clear FilterItemMap";
 
-    FilterLogItem.clear();
+    FilterLogItems.clear();
 
     qDebug() << "LogFileModel::fill FilterItemMap";
 
@@ -171,13 +176,12 @@ void LogFileModel::refreshItemList()
             {
                 if(LogFile::filter(item,filter))
                 {
-                    FilterLogItem.append(item);
                     match = true;
                     break;
                 }
             }
             LogItems.append(item);
-            if(match)FilterLogItem.append(item);
+            if(match)FilterLogItems.append(item);
         }
         qDebug() << "LogFileModel::LogFile:" << file->getFile()->fileName() << " Items:" << file->getLogItemList()->count();
     }
@@ -219,7 +223,7 @@ QList<LogFileFilter> LogFileModel::getfFiltersFromIndex(const QModelIndex &index
         return QList<LogFileFilter>();
     }
 
-    if (index.row() >= FilterLogItem.size())
+    if (index.row() >= FilterLogItems.size())
     {
         return QList<LogFileFilter>();
     }
@@ -228,7 +232,7 @@ QList<LogFileFilter> LogFileModel::getfFiltersFromIndex(const QModelIndex &index
 
     foreach(LogFileFilter filter, LogFileFilters)
     {
-        if(LogFile::filter(FilterLogItem.at(index.row()),filter))
+        if(LogFile::filter(FilterLogItems.at(index.row()),filter))
         {
             matchedfilter.append(filter);
         }
@@ -241,7 +245,7 @@ void LogFileModel::addFilter(LogFileFilter _LogFileFilter)
 {
     LogFileFilters.append(_LogFileFilter);
 
-    qDebug() << "LogFileModel::addFilter:" << _LogFileFilter.color;
+    qDebug() << "LogFileModel::addFilter:" << _LogFileFilter.Color;
     qDebug() << "LogFileModel::addFilter: Uid:" << _LogFileFilter.getUID();
     qDebug() << "LogFileModel::addFilter: LogFileFilters count" << LogFileFilters.count();
 
@@ -282,4 +286,77 @@ void LogFileModel::storeFilter(LogFileFilter filter)
     LogFileFilters.append(filter);
     emit filterListchange();
     refreshItemList();
+}
+
+void LogFileModel::delFilter(LogFileFilter filter)
+{
+    for(int i = 0;i<LogFileFilters.count();i++)
+    {
+        LogFileFilter currentfilter = LogFileFilters.at(i);
+        if(currentfilter.getUID()==filter.getUID())
+        {
+            LogFileFilters.removeAt(i);
+            return;
+        }
+    }
+    emit filterListchange();
+    refreshItemList();
+}
+
+void LogFileModel::sort( int column, Qt::SortOrder order )
+{
+    if(order)
+    {
+        switch (column)
+        {
+          case 0:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemlessThanType);
+             break;
+          case 1:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemlessThanTimestamp);
+             break;
+          case 2:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemlessThanMessageID);
+             break;
+          case 3:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemlessThanSourceID);
+             break;
+          case 5:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemlessThanMessage);
+             break;
+          case 6:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemlessThanLineNumber);
+             break;
+         default:
+             break;
+        }
+    }
+    else
+    {
+        switch (column)
+        {
+          case 0:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemgreaterThanType);
+             break;
+          case 1:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemgreaterThanTimestamp);
+             break;
+          case 2:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemgreaterThanMessageID);
+             break;
+          case 3:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemgreaterThanSourceID);
+             break;
+          case 5:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemgreaterThanMessage);
+             break;
+          case 6:
+             qSort(LogItems.begin(), LogItems.end(), LogItem::LogItemgreaterThanLineNumber);
+             break;
+         default:
+             break;
+        }
+    }
+
+    emit reset();
 }

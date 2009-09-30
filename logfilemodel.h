@@ -13,7 +13,7 @@ protected:
     QList<LogFile*>                         *LogFiles;
 
 
-    LogItemList                         FilterLogItem;
+    LogItemList                        FilterLogItems;
     LogItemList                              LogItems;
 
     QList<LogFileFilter>               LogFileFilters;          //Liste mit allen Filtern die angewand werden
@@ -23,6 +23,7 @@ public:
     //***Filter
     QList<LogFileFilter>* getFilters();             //Liefert Liste mit allen Filtern zurück
     void addFilter(LogFileFilter _LogFileFilter);   //Fügt einen Filter in die Liste Hinzu und Löst das Signal "filterListchange()" aus
+    void delFilter(LogFileFilter _LogFileFilter);
     void storeFilter(LogFileFilter filter);         //Function dient zum Speichern von Bestehenden und Neuen Filtern
 
     LogFileModel( QObject *parent = 0)
@@ -54,6 +55,8 @@ public:
     LogFile* getLogFile(void);
 
     void sortItems(void);
+
+    void sort( int column, Qt::SortOrder );
 
 public slots:
 

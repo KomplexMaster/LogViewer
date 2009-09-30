@@ -33,6 +33,8 @@ public:
     LogFile(QFile *_file);
     virtual ~LogFile();
 
+    bool isLoaded();                         //liefert true zurück falls alle Threads Fertig sind;
+
     LogItemList*    getLogItemList(void);   //Liefert Liste alle LogItem zurück
     int             getLinesCount(void);    //Anzahl der Zeilen des LogFiles
     QTime           getStartTime(void);     //Liefert startime
@@ -44,6 +46,7 @@ public:
 
     static void filter(LogItemList* in, LogItemList* out, LogFileFilter filter);
     static bool filter(LogItem* in, LogFileFilter filter);
+    static bool FilterCheck(LogItem* in, LogFileFilter filter);
 
     int count();
 
