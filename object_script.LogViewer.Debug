@@ -13,6 +13,7 @@ INPUT(
 ./debug/logitemparserdialog.o
 ./debug/logfileviewerfilterdockwidget.o
 ./debug/logfileviewerfiltereditordockwidget.o
+./debug/logfileviewtindexbar.o
 ./debug/moc_mainwindow.o
 ./debug/moc_logfile.o
 ./debug/moc_logfilemodel.o
@@ -22,5 +23,6 @@ INPUT(
 ./debug/moc_logitemparserdialog.o
 ./debug/moc_logfileviewerfilterdockwidget.o
 ./debug/moc_logfileviewerfiltereditordockwidget.o
+./debug/moc_logfileviewtindexbar.o
 ./debug/qrc_res.o
 );

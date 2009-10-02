@@ -32,8 +32,6 @@ private:
 
     LogItemParserDialog* lpd;
 
-    LogFileViewWidgetIndexBar* bar;
-
 private slots:
     void on_actionFilterEditor_toggled(bool );
     void on_actionOpen_triggered();

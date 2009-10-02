@@ -6,6 +6,7 @@
 #include <QSplitter>
 #include "logfilemodel.h"
 #include "logfileproxymodel.h"
+#include "logfileviewtindexbar.h"
 
 namespace Ui {
     class LogFileViewWidget;
@@ -44,6 +45,8 @@ protected:
 
     void loadColumnWidth();                 //läd Zeilenbreite aus der in der Regestry
     void saveColumnWidth();                 //speichert Zeilenbreite in der Regestry
+
+    LogFileViewtIndexBar *bar;
 
     QTableView *top;
     QTableView *botton;

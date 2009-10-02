@@ -53,9 +53,6 @@ LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent):QWid
     loadColumnWidth();      //läd Breite der Zeilen für die Views
 
     connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SIGNAL(changeData()));
-    connect(model,SIGNAL(fileListchange()),indexbar,SLOT(recalScale()));
-    connect(model,SIGNAL(filterListchange()),indexbar,SLOT(recalScale()));
-    qDebug() << indexbar->metaObject()->className();
 }
 
 LogFileViewWidget::~LogFileViewWidget()

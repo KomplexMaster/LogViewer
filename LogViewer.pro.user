@@ -1,6 +1,10 @@
 <!DOCTYPE QtCreatorProject>
 <qtcreator>
  <data>
+  <variable>RunConfiguration0-BaseEnvironmentBase</variable>
+  <value type="int" >2</value>
+ </data>
+ <data>
   <variable>RunConfiguration0-CommandLineArguments</variable>
   <valuelist type="QVariantList" />
  </data>
@@ -27,6 +31,14 @@
  <data>
   <variable>RunConfiguration0-UserSetName</variable>
   <value type="bool" >false</value>
+ </data>
+ <data>
+  <variable>RunConfiguration0-UserSetWorkingDirectory</variable>
+  <value type="bool" >false</value>
+ </data>
+ <data>
+  <variable>RunConfiguration0-UserWorkingDirectory</variable>
+  <value type="QString" ></value>
  </data>
  <data>
   <variable>RunConfiguration0-type</variable>
@@ -267,6 +279,7 @@
     <value type="QString" >win32-g++</value>
     <value type="QString" >-r</value>
     <value type="QString" >CONFIG+=debug_and_release</value>
+    <value type="QString" >CONFIG+=release</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString" >F:/Qt/2009.03/qt/bin/qmake.exe</value>
    <value key="abstractProcess.enabled" type="bool" >false</value>

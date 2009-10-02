@@ -13,6 +13,7 @@ INPUT(
 ./release/logitemparserdialog.o
 ./release/logfileviewerfilterdockwidget.o
 ./release/logfileviewerfiltereditordockwidget.o
+./release/logfileviewtindexbar.o
 ./release/moc_mainwindow.o
 ./release/moc_logfile.o
 ./release/moc_logfilemodel.o
@@ -22,5 +23,6 @@ INPUT(
 ./release/moc_logitemparserdialog.o
 ./release/moc_logfileviewerfilterdockwidget.o
 ./release/moc_logfileviewerfiltereditordockwidget.o
+./release/moc_logfileviewtindexbar.o
 ./release/qrc_res.o
 );

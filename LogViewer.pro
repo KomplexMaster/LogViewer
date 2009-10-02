@@ -20,7 +20,8 @@ SOURCES += mainwindow.cpp \
     logitemparser.cpp \
     logitemparserdialog.cpp \
     logfileviewerfilterdockwidget.cpp \
-    logfileviewerfiltereditordockwidget.cpp
+    logfileviewerfiltereditordockwidget.cpp \
+    logfileviewtindexbar.cpp
 HEADERS += mainwindow.h \
     logfile.h \
     logfilemodel.h \
@@ -33,7 +34,8 @@ HEADERS += mainwindow.h \
     logitemparser.h \
     logitemparserdialog.h \
     logfileviewerfilterdockwidget.h \
-    logfileviewerfiltereditordockwidget.h
+    logfileviewerfiltereditordockwidget.h \
+    logfileviewtindexbar.h
 FORMS += mainwindow.ui \
     logfileviewwidget.ui \
     logviewdockwidget.ui \
