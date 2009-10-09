@@ -2,18 +2,17 @@
 #include "ui_logfileviewwidget.h"
 #include "logdelegate.h"
 #include "logfile.h"
+#include "logfileviewwidget.h"
+#include "logfilejar.h"
 
-
-
-
-LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent):QWidget(parent),  model(_model),
+LogFileViewWidget::LogFileViewWidget(QWidget *parent):QWidget(parent),
     m_ui(new Ui::LogFileViewWidget)
 {
     currentLoadingFile = 0;
 
-    if(!model)model = new LogFileModel(this);   //Erstellt LogFileModel falls per default keines übergeben wurde
-    proxymodel = new LogFileProxyModel(this);
-    proxymodel->setSourceModel(model);
+    //Erstellt LogFileModel falls per default keines übergeben wurde
+    //proxymodel = new LogFileProxyModel(this);
+    //proxymodel->setSourceModel(model);
 
    // filterproxy = new QSortFilterProxyModel;
    // filterproxy->setDynamicSortFilter(true);
@@ -21,15 +20,23 @@ LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent):QWid
 
     //Erzeugt die Oberfläche
 
-    top = new QTableView();         //erzeugt Views für ungefilterte (top) und gefilltere (botton) Ansicht
-    botton = new QTableView();
+    //top = new QTableView();         //erzeugt Views für ungefilterte (top) und gefilltere (botton) Ansicht
+
+    top = new QTreeView();
+    top->setRootIsDecorated(false);
+    top->setAlternatingRowColors(true);
+    top->setUniformRowHeights(true);
+
+    botton = new QTreeView();
+    botton->setRootIsDecorated(false);
+    botton->setAlternatingRowColors(true);
+    botton->setUniformRowHeights(true);
 
  //   proxyView = new QTreeView;
  //   proxyView->setRootIsDecorated(false);
  //   proxyView->setAlternatingRowColors(true);
  //   proxyView->setModel(proxymodel);
  //   proxyView->setSortingEnabled(true);
-
 
 
     this->setLayout(new QHBoxLayout(this));
@@ -42,17 +49,22 @@ LogFileViewWidget::LogFileViewWidget(LogFileModel *_model, QWidget *parent):QWid
     split->addWidget(top);
     split->addWidget(botton);
 
-    top->setModel(model);
-    botton->setModel(proxymodel);
+    //top->setModel(model);
+    //botton->setModel(proxymodel);
 
-    top->setItemDelegate(new LogDelegate(this));
-    botton->setItemDelegate(new LogDelegate(this));
+    //top->setItemDelegate(new LogDelegate(this));
+    //botton->setItemDelegate(new LogDelegate(this));
 
     top->setSortingEnabled(true);
 
-    loadColumnWidth();      //läd Breite der Zeilen für die Views
+    //loadColumnWidth();      //läd Breite der Zeilen für die Views
+    //connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SIGNAL(changeData()));
 
-    connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SIGNAL(changeData()));
+    jar = new LogFileJar(this);
+    model = new LogFileModel(jar);
+
+    top->setModel(model);
+    botton->setModel(model);
 }
 
 LogFileViewWidget::~LogFileViewWidget()
@@ -72,22 +84,6 @@ void LogFileViewWidget::changeEvent(QEvent *e)
     default:
         break;
     }
-}
-
-void LogFileViewWidget::addLogFile(LogFile* _LogFile)
-{
-    model->addLogFile(_LogFile);
-    model->sortItems();
-}
-
-void LogFileViewWidget::delLogFile(LogFile* _LogFile)
-{
-    model->delLogFile(_LogFile);
-}
-
-LogFileModel* LogFileViewWidget::getLogFileModel()
-{
-    return model;
 }
 
 void LogFileViewWidget::loadColumnWidth()
@@ -128,61 +124,20 @@ void LogFileViewWidget::saveColumnWidth()
     }
 }
 
-void LogFileViewWidget::loadLogFile(QString LogName)
-{
-    waitingChain.append(LogName);
-
-    qDebug() << "LogFileViewWidget::loadLogFile->FileName:" << LogName;
-    qDebug() << "LogFileViewWidget::loadLogFile->waitingChain size:" << waitingChain.size();
-
-    if(currentLoadingFile==0)
-    {
-        qDebug() << "LogFileViewWidget::loadLogFile->First in waitingChain" << LogName;
-        currentLoadingFile = new LogFile(new QFile(LogName));
-        connect(currentLoadingFile,SIGNAL(readFinished()),this,SLOT(loadNextLogFile()));
-    }
-}
-
-void LogFileViewWidget::loadNextLogFile(void)
-{
-    if((waitingChain.size()==0))
-    {
-        qDebug() << "LogFileViewWidget::loadNextLogFile->All Files loaded:";
-        return;
-    }
-
-    qDebug() << "LogFileViewWidget::loadNextLogFile->Checke File:" << currentLoadingFile->getFile()->fileName();
-
-    if(!currentLoadingFile->isLoaded())return;
-
-    qDebug() << "LogFileViewWidget::loadNextLogFile->File:" << currentLoadingFile->getFile()->fileName() << "geladen.";
-
-    if(waitingChain.contains(currentLoadingFile->getFile()->fileName()))
-    {
-        waitingChain.removeOne(currentLoadingFile->getFile()->fileName());
-
-        qDebug() << "LogFileViewWidget::loadNextLogFile->waitingChain size:" << waitingChain.size();
-
-        model->addLogFile(currentLoadingFile);
-        model->sortItems();
-
-        emit this->changeData();
-
-        if(waitingChain.size()==0)
-        {
-            currentLoadingFile=0;
-            return;
-        }
-
-        currentLoadingFile = new LogFile(new QFile(waitingChain.first()));
-        connect(currentLoadingFile,SIGNAL(readFinished()),this,SLOT(loadNextLogFile()));
-    }
-}
-
 QString LogFileViewWidget::getStatusMessage()
 {
-    return tr("LogFiles loaded:") + QString::number(model->getLogFileList()->size()) +
+    return "bla";/*tr("LogFiles loaded:") + QString::number(model->getLogFileList()->size()); +
             tr("    LogItems in Model:") + QString::number(model->rowCount()) +
             tr("    LogItems with Filter match:") + QString::number(model->frowCount()) +
-            tr("    LogFiles to load:") + QString::number(this->waitingChain.size());
+            tr("    LogFiles to load:") + QString::number(this->waitingChain.size());*/
+}
+
+LogFileJar* LogFileViewWidget::getJar()
+{
+    return jar;
+}
+
+void LogFileViewWidget::loadLogFile(QString FileName)
+{
+    jar->loadFile(FileName);
 }

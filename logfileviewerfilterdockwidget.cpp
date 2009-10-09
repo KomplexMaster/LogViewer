@@ -9,11 +9,6 @@ LogFileViewerFilterDockWidget::LogFileViewerFilterDockWidget(LogFileViewWidget *
 
     model = new QStandardItemModel(0, 4, this);
 
-    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Name"));
-    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Color"));
-    model->setHeaderData(2, Qt::Horizontal, QObject::tr("ID"));
-    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Hash"));
-
     sourceView = ui->treeView;
     sourceView->setRootIsDecorated(false);
     sourceView->setAlternatingRowColors(true);
@@ -44,9 +39,10 @@ void LogFileViewerFilterDockWidget::changeEvent(QEvent *e)
 
 void LogFileViewerFilterDockWidget::filterChange()
 {
+    /*
     if(parent)
     {
-        QList<LogFileFilter>* filterList = parent->getLogFileModel()->getFilters();
+        QList<LogFileFilter>* filterList = parent->getJar()->getFilters();
 
         model->removeRows(0,model->rowCount());
 
@@ -65,6 +61,7 @@ void LogFileViewerFilterDockWidget::filterChange()
     {
         model->removeRows(0,model->rowCount());
     }
+    */
 }
 
 void LogFileViewerFilterDockWidget::addFilter(LogFileFilter* filter)
@@ -78,6 +75,7 @@ void LogFileViewerFilterDockWidget::addFilter(LogFileFilter* filter)
 
 void LogFileViewerFilterDockWidget::selectFilter(QModelIndex index)
 {
+    /*
     if(parent)
     {
         int uid = model->index(index.row(),2).data().toInt();
@@ -92,6 +90,7 @@ void LogFileViewerFilterDockWidget::selectFilter(QModelIndex index)
             }
         }
     }
+    */
 }
 
 
@@ -100,22 +99,22 @@ void LogFileViewerFilterDockWidget::storeFilter(LogFileFilter filter)
 {
     qDebug() << "LogFileViewerFilterDockWidget::Store Filter:" << filter.getUID();
 
-    parent->getLogFileModel()->storeFilter(filter);
+    //parent->getLogFileModel()->storeFilter(filter);
 
-    filterChange();
+    //filterChange();
 }
 
 void LogFileViewerFilterDockWidget::addFilter()
 {
     LogFileFilter newfilter;
     newfilter.name = "Filter Nr."+QString::number(newfilter.getUID());
-    parent->getLogFileModel()->addFilter(newfilter);
-    filterChange();
+    //parent->getLogFileModel()->addFilter(newfilter);
+    //filterChange();
 }
 
 void LogFileViewerFilterDockWidget::delFilter()
 {
-    parent->getLogFileModel()->delFilter(this->filter);
-    filterChange();
+    //parent->getLogFileModel()->delFilter(this->filter);
+    //filterChange();
 }
 

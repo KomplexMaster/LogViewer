@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'logviewdockwidget.ui'
 **
-** Created: Wed 30. Sep 16:34:10 2009
+** Created: Tue 6. Oct 16:06:01 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!

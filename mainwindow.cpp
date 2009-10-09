@@ -13,16 +13,14 @@ MainWindow::MainWindow(QWidget *parent)
 {   
     ui->setupUi(this);
 
-    model = new LogFileModel(this);
-
-    LogFileViewWidget* log = new LogFileViewWidget(model, this);
+    LogFileViewWidget* log = new LogFileViewWidget(this);
     ui->mdiArea->addSubWindow(log);
 
     ui->mdiArea->setActiveSubWindow(ui->mdiArea->subWindowList().first());
     ui->mdiArea->activeSubWindow()->showMaximized();
 
     log->maximumSize();
-    connect(log->getLogFileModel(),SIGNAL(filterListchange()),this,SLOT(refresh()));
+    //connect(log->getLogFileModel(),SIGNAL(filterListchange()),this,SLOT(refresh()));
     connect(log,SIGNAL(changeData()),this,SLOT(refresh()));
 
     LogFileViewerFilterDockWidget* fw = new LogFileViewerFilterDockWidget(log);

@@ -2,9 +2,8 @@
 #define LOGFILEVIEWWIDGET_H
 
 #include <QtGui>
-#include <QTableView>
+#include <QTreeView>
 #include <QSplitter>
-#include "logfilemodel.h"
 #include "logfileproxymodel.h"
 #include "logfileviewtindexbar.h"
 
@@ -13,20 +12,22 @@ namespace Ui {
 }
 
 
+class LogFileJar;
+
 class LogFileViewWidget : public QWidget {
     Q_OBJECT
 public:
-    LogFileViewWidget(LogFileModel *_model = 0, QWidget *parent = 0);
+    LogFileViewWidget(QWidget *parent = 0);
     ~LogFileViewWidget();
+
+    LogFileJar* getJar();
 
 public slots:
 
-    void addLogFile(LogFile* _LogFile);     //Dient zum laden einer Weiteren Datei in den View
-    void delLogFile(LogFile* _LogFile);     //Löscht ein File aus dem View
-    void loadLogFile(QString LogName);      //Function dien zum laden von LogFile mit hilfe eine Chain
-    LogFileModel* getLogFileModel();        //gibt LogFileModel zurück
-    void loadNextLogFile();                 //stösst nächstes zu ladende LogFile an
+    //LogFileModel* getLogFileModel();        //gibt LogFileModel zurück
+    //void loadNextLogFile();                 //stösst nächstes zu ladende LogFile an
     QString getStatusMessage();             //Liefert StatusMessage mit Anzahl der LogItems und so ..
+    void loadLogFile(QString FileName);
 
 signals:
 
@@ -40,24 +41,23 @@ protected:
     QSettings       settings;               //Dient zum laden von Settings
 
     LogFileModel           *model;
-    LogFileProxyModel *proxymodel;
-    QSortFilterProxyModel *filterproxy;
+    //LogFileProxyModel *proxymodel;
+    //QSortFilterProxyModel *filterproxy;
 
     void loadColumnWidth();                 //läd Zeilenbreite aus der in der Regestry
     void saveColumnWidth();                 //speichert Zeilenbreite in der Regestry
 
     LogFileViewtIndexBar *bar;
 
-    QTableView *top;
-    QTableView *botton;
-    QTreeView  *proxyView;
+    QTreeView  *top;
+    QTreeView  *botton;
 
     QSplitter *split;
-
     QGridLayout *grid;
 
     void changeEvent(QEvent *e);
 
+    LogFileJar* jar;
 private:
     Ui::LogFileViewWidget *m_ui;
 };

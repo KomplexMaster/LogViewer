@@ -16,12 +16,12 @@ SOURCES += mainwindow.cpp \
     logdelegate.cpp \
     logfileviewwidget.cpp \
     logfileproxymodel.cpp \
-    logviewdockwidget.cpp \
     logitemparser.cpp \
     logitemparserdialog.cpp \
     logfileviewerfilterdockwidget.cpp \
     logfileviewerfiltereditordockwidget.cpp \
-    logfileviewtindexbar.cpp
+    logfileviewtindexbar.cpp \
+    logfilejar.cpp
 HEADERS += mainwindow.h \
     logfile.h \
     logfilemodel.h \
@@ -30,15 +30,14 @@ HEADERS += mainwindow.h \
     logdelegate.h \
     logfileviewwidget.h \
     logfileproxymodel.h \
-    logviewdockwidget.h \
     logitemparser.h \
     logitemparserdialog.h \
     logfileviewerfilterdockwidget.h \
     logfileviewerfiltereditordockwidget.h \
-    logfileviewtindexbar.h
+    logfileviewtindexbar.h \
+    logfilejar.h
 FORMS += mainwindow.ui \
     logfileviewwidget.ui \
-    logviewdockwidget.ui \
     logitemparserdialog.ui \
     logfileviewerfilterdockwidget.ui \
     logfileviewerfiltereditordockwidget.ui

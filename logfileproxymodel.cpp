@@ -2,19 +2,19 @@
 
 QVariant LogFileProxyModel::data(const QModelIndex &index, int role) const
 {
-    if((LogFileModel*)this->sourceModel())
-    {
-        return ((LogFileModel*)this->sourceModel())->fdata(index,role);
-    }
+    //if((LogFileModel*)this->sourceModel())
+    //{
+    //    return ((LogFileModel*)this->sourceModel())->fdata(index,role);
+    //}
     return QVariant();
 }
 
 int LogFileProxyModel::rowCount(const QModelIndex &index) const
 {
-    if((LogFileModel*)this->sourceModel())
-    {
-        return ((LogFileModel*)this->sourceModel())->frowCount(index);
-    }
+    //if((LogFileModel*)this->sourceModel())
+    //{
+    //    return ((LogFileModel*)this->sourceModel())->frowCount(index);
+    //}
     return 0;
 }
 

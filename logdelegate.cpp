@@ -18,11 +18,10 @@ void LogDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & optio
         if(QString(index.model()->metaObject()->className())=="QSortFilterProxyModel")
         {
             model = (LogFileModel*)((LogFileProxyModel*)index.model())->sourceModel();
-            filters = model->getfFiltersFromIndex(index);
         }
         else
         {
-            filters = model->getFiltersFromIndex(index);
+            //filters = model->getFiltersFromIndex(index);
         }
 
         //qDebug() << model->metaObject()->className();
