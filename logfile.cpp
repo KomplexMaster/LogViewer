@@ -100,7 +100,8 @@ void LogFile::filter(LogItemList* in, LogItemList* out, LogFileFilter filter)
 bool LogFile::filter(LogItem* item, LogFileFilter filter)
 {
     if(!filter.invert)return LogFile::FilterCheck(item,filter);
-    if(filter.invert)return !LogFile::FilterCheck(item,filter);
+
+    return !LogFile::FilterCheck(item,filter);
 }
 
 bool LogFile::FilterCheck(LogItem* item, LogFileFilter filter)

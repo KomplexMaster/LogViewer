@@ -32,6 +32,11 @@ private:
 
     LogItemParserDialog* lpd;
 
+    QSettings       settings;
+
+    void writeSettings();
+    void readSettings();
+
 private slots:
     void on_actionFilterEditor_toggled(bool );
     void on_actionOpen_triggered();

@@ -1,69 +1,39 @@
 #include "logdelegate.h"
 #include <QPainter>
 
-LogDelegate::LogDelegate(QObject* parent):QStyledItemDelegate(parent)
+LogDelegate::LogDelegate(LogFileModel* parent):QStyledItemDelegate(parent)
 {
 }
 
 void LogDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {
-    LogFileModel *model = (LogFileModel*)(index.model());
+    const LogFileModel* model =  qobject_cast<const LogFileModel*>(index.model());
 
     if(model)
     {
-        //Filter ohne Farbe werden nicht gezeichenet
-
-        QList<LogFileFilter> filters ;
-
-        if(QString(index.model()->metaObject()->className())=="QSortFilterProxyModel")
-        {
-            model = (LogFileModel*)((LogFileProxyModel*)index.model())->sourceModel();
-        }
-        else
-        {
-            //filters = model->getFiltersFromIndex(index);
-        }
-
-        //qDebug() << model->metaObject()->className();
-
-        int ColorCount=0;   //anzahl der Filter mit Frabe
-
-        foreach(LogFileFilter filter,filters)
-        {
-            if(filter.Color.isValid())ColorCount++;
-        }
+        QList<LogFileFilter> filters = model->getFilter(index);
 
         if(!filters.empty())
         {
-            painter->fillRect(option.rect, QBrush(filters.first().Color,Qt::SolidPattern));
-        }
-
-        /*
-        if(ColorCount!=0)
-        {
-            double factor = (double)option.rect.height()/ColorCount;
-
-            qDebug() << factor;
-            qDebug() << ColorCount;
-
-            int FilterNum = 0;
-
-            foreach(LogFileFilter filter,filters)
+            if(index.column()==0)
             {
-                if(filter.color.isValid())
+                int filterWidth = (option.rect.width()/filters.size());
+
+                QRect rect = option.rect;
+                rect.setWidth(filterWidth);
+
+                foreach(LogFileFilter currentFilter,filters)
                 {
-                    QRect rect(0,FilterNum*factor,option.rect.width(),(FilterNum+1)*factor);
-
-                    qDebug() << rect;
-
-                    painter->fillRect(rect, QBrush(filter.color,Qt::SolidPattern));
-
-                    qDebug() << "paint";
-
-                    FilterNum++;
+                    painter->fillRect(rect, QBrush(currentFilter.Color,Qt::SolidPattern));
+                    rect.setX(rect.x()+filterWidth);
+                    rect.setWidth(filterWidth);
                 }
             }
-        }*/
+            else
+            {
+                if(!filters.isEmpty())painter->fillRect(option.rect, QBrush(filters.last().Color,Qt::SolidPattern));
+            }
+        }
     }
 
     QStyledItemDelegate::paint(painter,option,index);

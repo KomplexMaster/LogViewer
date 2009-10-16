@@ -12,6 +12,7 @@ protected:
 
     LogItemList*    LogItems;
     LogFileJar*     parent;
+    bool            filtermodel;
 
 public:
 
@@ -25,6 +26,12 @@ public:
                         int role = Qt::DisplayRole) const;
     void sort( int column,
                Qt::SortOrder );
+    void setFiltered(bool isfiltered);
+
+    QList<LogFileFilter> getFilter(const QModelIndex &index) const;
+
+    QModelIndex getIndexOfLogItem(LogItem* item);
+    LogItem* getLogItemOfIndex(QModelIndex &index);
 
 protected slots:
 

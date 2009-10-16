@@ -14,6 +14,9 @@ INPUT(
 ./release/logfileviewerfiltereditordockwidget.o
 ./release/logfileviewtindexbar.o
 ./release/logfilejar.o
+./release/logfilefiltermodel.o
+./release/logfilefilterdelegate.o
+./release/logfilejarsortthread.o
 ./release/moc_mainwindow.o
 ./release/moc_logfile.o
 ./release/moc_logfilemodel.o
@@ -24,5 +27,7 @@ INPUT(
 ./release/moc_logfileviewerfiltereditordockwidget.o
 ./release/moc_logfileviewtindexbar.o
 ./release/moc_logfilejar.o
+./release/moc_logfilefiltermodel.o
+./release/moc_logfilejarsortthread.o
 ./release/qrc_res.o
 );

@@ -3,6 +3,7 @@
 
 #include <QDockWidget>
 
+#include "logfilefiltermodel.h"
 #include "logfileviewwidget.h"
 
 namespace Ui {
@@ -17,7 +18,6 @@ public:
 
 public slots:
 
-    void filterChange(void);
     void storeFilter(LogFileFilter filter);
     void addFilter();
     void delFilter();
@@ -28,13 +28,13 @@ private slots:
 
 signals:
 
-    void filterselect(LogFileFilter filter);
+    void changeFilter(LogFileFilter filter);
 
 protected:
     LogFileFilter filter;
 
     LogFileViewWidget *parent;
-    QStandardItemModel *model;
+    LogFileFilterModel *model;
 
     QTreeView* sourceView;
 

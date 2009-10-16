@@ -8,7 +8,6 @@ int LogFileModel::rowCount(const QModelIndex &parent) const
 
 QVariant LogFileModel::data(const QModelIndex &index, int role) const
 {
-    //qDebug() << "index.column()" << index.column() << "index.row()" << index.row();
     if (!index.isValid())
         return QVariant();
 
@@ -82,6 +81,8 @@ int LogFileModel::columnCount(const QModelIndex &parent) const
 
 void LogFileModel::sort( int column, Qt::SortOrder order )
 {
+    parent->sort(filtermodel,column,order);
+
     emit reset();
 }
 
@@ -100,4 +101,45 @@ LogFileModel::LogFileModel( LogFileJar *_parent) : QAbstractTableModel(parent), 
 void LogFileModel::dataLoaded()
 {
     reset();
+}
+
+void LogFileModel::setFiltered(bool isfiltered)
+{
+    this->filtermodel = isfiltered;
+
+    if(filtermodel)
+    {
+        LogItems = parent->getFilterLogItemList();
+    }
+    else
+    {
+        LogItems = parent->getLogItemList();
+    }
+}
+
+QList<LogFileFilter> LogFileModel::getFilter(const QModelIndex &index) const
+{
+    QList<LogFileFilter> matchFilter;
+
+    foreach(LogFileFilter currentFilter,parent->getLogFileFilter())
+    {
+        if(LogFile::filter(this->LogItems->at(index.row()),currentFilter))
+        {
+            matchFilter.append(currentFilter);
+        }
+    }
+
+    return matchFilter;
+}
+
+QModelIndex LogFileModel::getIndexOfLogItem(LogItem* item)
+{
+    int row = this->LogItems->indexOf(item);
+
+    return this->createIndex(row,0);
+}
+
+LogItem* LogFileModel::getLogItemOfIndex(QModelIndex &index)
+{
+    return this->LogItems->at(index.row());
 }

@@ -6,6 +6,7 @@
 #include <QSplitter>
 #include "logfileproxymodel.h"
 #include "logfileviewtindexbar.h"
+#include "logfilefiltermodel.h"
 
 namespace Ui {
     class LogFileViewWidget;
@@ -20,14 +21,16 @@ public:
     LogFileViewWidget(QWidget *parent = 0);
     ~LogFileViewWidget();
 
-    LogFileJar* getJar();
-
 public slots:
 
-    //LogFileModel* getLogFileModel();        //gibt LogFileModel zurück
-    //void loadNextLogFile();                 //stösst nächstes zu ladende LogFile an
     QString getStatusMessage();             //Liefert StatusMessage mit Anzahl der LogItems und so ..
     void loadLogFile(QString FileName);
+    LogFileJar* getJar(void);
+
+    LogFileFilterModel* getFilterModel(void);
+
+    void moveToSelectedItem(QModelIndex);
+    void isProgress(bool);
 
 signals:
 
@@ -40,9 +43,9 @@ protected:
 
     QSettings       settings;               //Dient zum laden von Settings
 
-    LogFileModel           *model;
-    //LogFileProxyModel *proxymodel;
-    //QSortFilterProxyModel *filterproxy;
+    LogFileModel           *itemmodel;
+    LogFileModel           *itemfilteredmodel;
+    LogFileFilterModel     *filtermodel;
 
     void loadColumnWidth();                 //läd Zeilenbreite aus der in der Regestry
     void saveColumnWidth();                 //speichert Zeilenbreite in der Regestry

@@ -1,5 +1,10 @@
 #include "logfilefilter.h"
 
+void LogFileFilter::setName(QString _Name)
+{
+    name = _Name;
+}
+
 bool operator==(LogFileFilter &lhs,const LogFileFilter &rhs)
 {
     if(lhs.Color!=rhs.Color)return false;

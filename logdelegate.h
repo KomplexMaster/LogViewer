@@ -9,10 +9,9 @@
 class LogDelegate : public QStyledItemDelegate
 {
 protected:
-    LogFileModel* model;
 
 public:
-    LogDelegate(QObject* parent);
+    LogDelegate(LogFileModel* parent = 0);
 
     void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 };

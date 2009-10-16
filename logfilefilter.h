@@ -14,6 +14,7 @@ public:
     LogFileFilter(): Color(Qt::white), Type('-'), MessageID(-1), SourceID(-1),invert(false),uid(LogFileFilterPop)
     {
             LogFileFilterPop++;
+            name = " Filter Nr.:"+LogFileFilterPop;
     }
 
     QColor Color;
@@ -30,6 +31,8 @@ public:
     int getUID(void){return uid;}
 
     friend QTextStream &operator<<(QTextStream &out,const LogFileFilter &rhs); //Function um ein LogFileFilter leicht durch qDebug auszugeben
+
+    void setName(QString Name);
 
 private:
 

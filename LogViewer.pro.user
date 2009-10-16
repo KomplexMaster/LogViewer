@@ -228,7 +228,6 @@
     <value type="QString" >ALLUSERSPROFILE=D:\Dokumente und Einstellungen\All Users.WINXP</value>
     <value type="QString" >APPDATA=D:\Dokumente und Einstellungen\Administrator.ROOZ-7A90DB47F2\Anwendungsdaten</value>
     <value type="QString" >CLASSPATH=.;D:\Programme\Java\jre6\lib\ext\QTJava.zip</value>
-    <value type="QString" >CLIENTNAME=Console</value>
     <value type="QString" >COMMONPROGRAMFILES=D:\Programme\Gemeinsame Dateien</value>
     <value type="QString" >COMPUTERNAME=ROOZ-7A90DB47F2</value>
     <value type="QString" >COMSPEC=D:\WINXP\system32\cmd.exe</value>
@@ -242,7 +241,7 @@
     <value type="QString" >MKL_SERIAL=YES</value>
     <value type="QString" >NUMBER_OF_PROCESSORS=2</value>
     <value type="QString" >OS=Windows_NT</value>
-    <value type="QString" >PATH=F:\Qt\2009.03\mingw\bin;F:\Qt\2009.03\qt\bin;D:\Programme\MiKTeX 2.7\miktex\bin;D:\WINXP\system32;D:\WINXP;D:\WINXP\System32\Wbem;D:\Programme\QuickTime\QTSystem\;D:\Qt\QtCreator\mingw\bin;D:\Qt\QtCreator\qt\bin;D:\WINXP\system32\WindowsPowerShell\v1.0\D:\Programme\MATLAB\R2009a\bin;D:\Programme\MATLAB\R2009a\bin\win32;D:\Programme\Git\cmd;D:\Programme\Git\bin;D:\Programme\CVSNT\</value>
+    <value type="QString" >PATH=F:\Qt\2009.03\mingw\bin;F:\Qt\2009.03\qt\bin;D:\Programme\MiKTeX 2.7\miktex\bin;D:\WINXP\system32;D:\WINXP;D:\WINXP\System32\Wbem;D:\Programme\QuickTime\QTSystem\;D:\Qt\QtCreator\mingw\bin;D:\Qt\QtCreator\qt\bin;D:\WINXP\system32\WindowsPowerShell\v1.0\D:\Programme\MATLAB\R2009a\bin;D:\Programme\MATLAB\R2009a\bin\win32;D:\Programme\Git\cmd;D:\Programme\Git\bin;D:\Programme\GTK2-Runtime\bin;D:\Programme\MKVtoolnix;D:\Programme\Smart Projects\IsoBuster;D:\Programme\CVSNT\</value>
     <value type="QString" >PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.PSC1</value>
     <value type="QString" >PROCESSOR_ARCHITECTURE=x86</value>
     <value type="QString" >PROCESSOR_IDENTIFIER=x86 Family 15 Model 4 Stepping 7, GenuineIntel</value>
@@ -269,7 +268,7 @@
     <value type="QString" >CONFIG+=debug_and_release</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString" >F:/Qt/2009.03/qt/bin/qmake.exe</value>
-   <value key="abstractProcess.enabled" type="bool" >false</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
    <value key="abstractProcess.workingDirectory" type="QString" >F:/netback/LogViewer</value>
    <value key="buildConfiguration" type="" ></value>
   </valuemap>
@@ -282,7 +281,6 @@
     <value type="QString" >ALLUSERSPROFILE=D:\Dokumente und Einstellungen\All Users.WINXP</value>
     <value type="QString" >APPDATA=D:\Dokumente und Einstellungen\Administrator.ROOZ-7A90DB47F2\Anwendungsdaten</value>
     <value type="QString" >CLASSPATH=.;D:\Programme\Java\jre6\lib\ext\QTJava.zip</value>
-    <value type="QString" >CLIENTNAME=Console</value>
     <value type="QString" >COMMONPROGRAMFILES=D:\Programme\Gemeinsame Dateien</value>
     <value type="QString" >COMPUTERNAME=ROOZ-7A90DB47F2</value>
     <value type="QString" >COMSPEC=D:\WINXP\system32\cmd.exe</value>
@@ -296,7 +294,7 @@
     <value type="QString" >MKL_SERIAL=YES</value>
     <value type="QString" >NUMBER_OF_PROCESSORS=2</value>
     <value type="QString" >OS=Windows_NT</value>
-    <value type="QString" >PATH=F:\Qt\2009.03\mingw\bin;F:\Qt\2009.03\qt\bin;D:\Programme\MiKTeX 2.7\miktex\bin;D:\WINXP\system32;D:\WINXP;D:\WINXP\System32\Wbem;D:\Programme\QuickTime\QTSystem\;D:\Qt\QtCreator\mingw\bin;D:\Qt\QtCreator\qt\bin;D:\WINXP\system32\WindowsPowerShell\v1.0\D:\Programme\MATLAB\R2009a\bin;D:\Programme\MATLAB\R2009a\bin\win32;D:\Programme\Git\cmd;D:\Programme\Git\bin;D:\Programme\CVSNT\</value>
+    <value type="QString" >PATH=F:\Qt\2009.03\mingw\bin;F:\Qt\2009.03\qt\bin;D:\Programme\MiKTeX 2.7\miktex\bin;D:\WINXP\system32;D:\WINXP;D:\WINXP\System32\Wbem;D:\Programme\QuickTime\QTSystem\;D:\Qt\QtCreator\mingw\bin;D:\Qt\QtCreator\qt\bin;D:\WINXP\system32\WindowsPowerShell\v1.0\D:\Programme\MATLAB\R2009a\bin;D:\Programme\MATLAB\R2009a\bin\win32;D:\Programme\Git\cmd;D:\Programme\Git\bin;D:\Programme\GTK2-Runtime\bin;D:\Programme\MKVtoolnix;D:\Programme\Smart Projects\IsoBuster;D:\Programme\CVSNT\</value>
     <value type="QString" >PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.PSC1</value>
     <value type="QString" >PROCESSOR_ARCHITECTURE=x86</value>
     <value type="QString" >PROCESSOR_IDENTIFIER=x86 Family 15 Model 4 Stepping 7, GenuineIntel</value>

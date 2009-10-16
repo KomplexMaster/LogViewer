@@ -7,7 +7,7 @@ LogFileViewerFilterEditorDockWidget::LogFileViewerFilterEditorDockWidget(LogFile
 {
     m_ui->setupUi(this);
 
-    connect(parent,SIGNAL(filterselect(LogFileFilter)),this,SLOT(setFilter(LogFileFilter)));
+    //connect(parent,SIGNAL(filterselect(LogFileFilter)),this,SLOT(setFilter(LogFileFilter)));
     connect(this->m_ui->pushButtonSave,SIGNAL(clicked()),this,SLOT(storeFilter()));
 }
 

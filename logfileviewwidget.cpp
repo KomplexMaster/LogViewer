@@ -10,33 +10,16 @@ LogFileViewWidget::LogFileViewWidget(QWidget *parent):QWidget(parent),
 {
     currentLoadingFile = 0;
 
-    //Erstellt LogFileModel falls per default keines übergeben wurde
-    //proxymodel = new LogFileProxyModel(this);
-    //proxymodel->setSourceModel(model);
-
-   // filterproxy = new QSortFilterProxyModel;
-   // filterproxy->setDynamicSortFilter(true);
-   // filterproxy->setSourceModel(model);
-
-    //Erzeugt die Oberfläche
-
-    //top = new QTableView();         //erzeugt Views für ungefilterte (top) und gefilltere (botton) Ansicht
-
     top = new QTreeView();
     top->setRootIsDecorated(false);
     top->setAlternatingRowColors(true);
     top->setUniformRowHeights(true);
+    top->setEditTriggers(QTreeView::DoubleClicked);
 
     botton = new QTreeView();
     botton->setRootIsDecorated(false);
     botton->setAlternatingRowColors(true);
     botton->setUniformRowHeights(true);
-
- //   proxyView = new QTreeView;
- //   proxyView->setRootIsDecorated(false);
- //   proxyView->setAlternatingRowColors(true);
- //   proxyView->setModel(proxymodel);
- //   proxyView->setSortingEnabled(true);
 
 
     this->setLayout(new QHBoxLayout(this));
@@ -49,22 +32,27 @@ LogFileViewWidget::LogFileViewWidget(QWidget *parent):QWidget(parent),
     split->addWidget(top);
     split->addWidget(botton);
 
-    //top->setModel(model);
-    //botton->setModel(proxymodel);
-
-    //top->setItemDelegate(new LogDelegate(this));
-    //botton->setItemDelegate(new LogDelegate(this));
-
-    top->setSortingEnabled(true);
-
-    //loadColumnWidth();      //läd Breite der Zeilen für die Views
-    //connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SIGNAL(changeData()));
 
     jar = new LogFileJar(this);
-    model = new LogFileModel(jar);
 
-    top->setModel(model);
-    botton->setModel(model);
+
+    itemmodel = new LogFileModel(jar);
+    itemfilteredmodel = new LogFileModel(jar);
+    itemfilteredmodel->setFiltered(true);
+    filtermodel = new LogFileFilterModel(jar);
+
+    top->setModel(itemmodel);
+    top->setItemDelegate(new LogDelegate());
+
+    botton->setModel(itemfilteredmodel);
+    botton->setItemDelegate(new LogDelegate());
+
+    connect(jar,SIGNAL(inProgress(bool)),this,SLOT(setDisabled(bool)));
+
+    top->setSortingEnabled(true);
+    botton->setSortingEnabled(true);
+    connect(botton,SIGNAL(clicked(QModelIndex)),this,SLOT(moveToSelectedItem(QModelIndex)));
+    connect(jar,SIGNAL(inProgress(bool)),this,SLOT(isProgress(bool)));
 }
 
 LogFileViewWidget::~LogFileViewWidget()
@@ -140,4 +128,21 @@ LogFileJar* LogFileViewWidget::getJar()
 void LogFileViewWidget::loadLogFile(QString FileName)
 {
     jar->loadFile(FileName);
+}
+
+LogFileFilterModel* LogFileViewWidget::getFilterModel(void)
+{
+    return filtermodel;
+}
+
+void LogFileViewWidget::moveToSelectedItem(QModelIndex index)
+{
+    LogItem* filter = itemfilteredmodel->getLogItemOfIndex(index);
+    top->setCurrentIndex(itemmodel->getIndexOfLogItem(filter));
+}
+
+void LogFileViewWidget::isProgress(bool b)
+{
+    qDebug() << b;
+    this->setEnabled(!b);
 }

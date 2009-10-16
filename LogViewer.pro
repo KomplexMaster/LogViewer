@@ -21,7 +21,10 @@ SOURCES += mainwindow.cpp \
     logfileviewerfilterdockwidget.cpp \
     logfileviewerfiltereditordockwidget.cpp \
     logfileviewtindexbar.cpp \
-    logfilejar.cpp
+    logfilejar.cpp \
+    logfilefiltermodel.cpp \
+    logfilefilterdelegate.cpp \
+    logfilejarsortthread.cpp
 HEADERS += mainwindow.h \
     logfile.h \
     logfilemodel.h \
@@ -35,7 +38,10 @@ HEADERS += mainwindow.h \
     logfileviewerfilterdockwidget.h \
     logfileviewerfiltereditordockwidget.h \
     logfileviewtindexbar.h \
-    logfilejar.h
+    logfilejar.h \
+    logfilefiltermodel.h \
+    logfilefilterdelegate.h \
+    logfilejarsortthread.h
 FORMS += mainwindow.ui \
     logfileviewwidget.ui \
     logitemparserdialog.ui \
